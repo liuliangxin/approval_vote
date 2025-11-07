@@ -832,3 +832,49 @@ Range Proof prefix: 02000000000000000000000000000000... (len=721)
 [vote/send] pedersenCom(hex)=0200000000000000...
 [vote/send] rangeProof(hex)=02000000000000000000000000000000...
 Successfully triggered aggregation process.
+Server will be started at localhost:1115...
+Received message in dispatch: &{}
+[dispatchMsg] Forwarding message: *priacy_compute.TriggerVRFMsg
+Routing message of type: *priacy_compute.TriggerVRFMsg
+[routeMsg] Message of type *priacy_compute.TriggerVRFMsg forwarded to MsgDelivery
+Resolving message: &{}
+Successfully triggered VRF evaluation.
+Waiting for 1 minute before triggering aggregation...
+[timing] evalVRFOnce ok in 3.145ms
+VRFValue: 0.942487
+VRFProof: 03f146cdfea9306ae524f1e921bd294c45acf3737f8e6c9ac4a22fd081e1d9bb896270a6cfa679acfb931b5fd19385dab50cde55adaa9f6e41cfb47905cdb26a446c8f30da83aad16f39df148991d00c5f
+VRFval: 0x1.e28d9bfd5260dp-01
+VRFChosen: false
+[timing] handleBloomParams ok in 0s (M=10, T=3, EpsBF=0.01)
+Bloom Params - M: 10, T: 3, EpsBF: 0.010000
+Bloom L: 29, D: 7
+[timing] randomApprovedIndices took 0s (M=10, T=3)
+Approved Indices: [7 2 9]
+Received message in dispatch: &{[7 2 9]}
+[dispatchMsg] Forwarding message: *priacy_compute.LocalApproveVoteMsg
+Routing message of type: *priacy_compute.LocalApproveVoteMsg
+[routeMsg] Message of type *priacy_compute.LocalApproveVoteMsg forwarded to MsgDelivery
+Successfully triggered local approve vote.
+[timing] RunRandomElectAndBroadcast total=10.0023ms
+Resolving message: &{[7 2 9]}
+[AggSelect] self=5 IsAgg=false part=0 A=1 B=2
+[timing] RunAggVRFBroadcast(ctx="epoch1:block100") took 2.0235ms
+Cleaned and Validated Approved Indices: [7 2 9]
+[timing] Bloom build+OnesCount took 0s (L=29 D=7 added=3 sum=16)
+[timing] PedersenCommit took 15.027ms
+Pedersen Commitment: 0200000000000000 (len=33)
+[timing] GenerateRangeProof took 595.2002ms (upper=21)
+Range Proof prefix: 02000000000000000000000000000000... (len=721)
+[timing] SplitBitsAdditive took 0s (bits_len=29)
+[vote/send] pkt1 -> 1 (part=1)
+[vote/send] from=5 -> to=1 url=http://localhost:1111/vote/share
+[vote/send] part=1 L=29 D=7 sumOnes=16 shares_len=29
+[vote/send] pedersenCom(hex)=0200000000000000...
+[vote/send] rangeProof(hex)=02000000000000000000000000000000...
+[vote/send] pkt2 -> 2 (part=2)
+[vote/send] from=5 -> to=2 url=http://localhost:1112/vote/share
+[vote/send] part=2 L=29 D=7 sumOnes=16 shares_len=29
+[vote/send] pedersenCom(hex)=0200000000000000...
+[vote/send] rangeProof(hex)=02000000000000000000000000000000...
+[timing] handleLocalApproveVote total=614.3258ms
+Successfully triggered aggregation process.

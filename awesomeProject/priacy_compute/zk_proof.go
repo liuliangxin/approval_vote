@@ -29,6 +29,10 @@ func (n *Node) buildAndProveCount(
 	// Log the entry to the function
 	fmt.Println("[buildAndProveCount] Called")
 
+	// 先确保已加载/构建一次
+	if err := n.ensureSetupCount(); err != nil {
+		return nil, nil, nil, err
+	}
 	// 1) 用 R1CS builder 编译（域传模数 *big.Int）
 	var circuit CountCircuit
 	fmt.Println("[buildAndProveCount] Compiling circuit with R1CS builder")

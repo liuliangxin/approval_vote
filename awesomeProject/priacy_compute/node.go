@@ -3,13 +3,21 @@ package priacy_compute
 import (
 	"bytes"
 	"crypto/ed25519"
+	"crypto/sha256"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	bn254fr "github.com/consensys/gnark-crypto/ecc/bn254/fr"
 	bn254kzg "github.com/consensys/gnark-crypto/ecc/bn254/kzg"
 	plonkbn254 "github.com/consensys/gnark/backend/plonk/bn254"
+	cs "github.com/consensys/gnark/constraint/bn254"
+	"github.com/consensys/gnark/frontend"
+	"github.com/consensys/gnark/frontend/cs/r1cs"
 	"io/ioutil"
 	"math/rand"
 	"net/http"
+	"os"
+	"path/filepath"
 	"sync"
 	"time"
 )
@@ -152,8 +160,120 @@ type Node struct {
 	srsLag  bn254kzg.SRS             // Lagrange form（有的版本需要；可由 srs 派生）
 	vkCount *plonkbn254.VerifyingKey // 验证键缓存（当前计票电路）
 
-	cachedCfg *OnchainConfig // 缓存最近一次 /onchain/config 的配置
-	web3Once  sync.Once      // 可选：防止多处并发重复初始化
+	cachedCfg     *OnchainConfig // 缓存最近一次 /onchain/config 的配置
+	web3Once      sync.Once      // 可选：防止多处并发重复初始化
+	sprCount      *cs.SparseR1CS
+	pkCount       *plonkbn254.ProvingKey
+	SetupCacheDir string
+	setupOnce     sync.Once
+}
+
+// ---- 序列化/反序列化 ----
+func (n *Node) saveSetupToDisk(dir string) error {
+	if err := os.MkdirAll(dir, 0o755); err != nil {
+		return err
+	}
+	if n.sprCount != nil {
+		f, _ := os.Create(filepath.Join(dir, "count.spr"))
+		defer f.Close()
+		if _, err := n.sprCount.WriteTo(f); err != nil {
+			return err
+		}
+	}
+	if n.pkCount != nil {
+		f, _ := os.Create(filepath.Join(dir, "count.pk"))
+		defer f.Close()
+		if _, err := n.pkCount.WriteTo(f); err != nil {
+			return err
+		}
+	}
+	if n.vkCount != nil {
+		f, _ := os.Create(filepath.Join(dir, "count.vk"))
+		defer f.Close()
+		if _, err := n.vkCount.WriteTo(f); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func (n *Node) loadSetupFromDisk(dir string) error {
+	// spr
+	if f, err := os.Open(filepath.Join(dir, "count.spr")); err == nil {
+		defer f.Close()
+		var spr cs.SparseR1CS
+		if _, err := spr.ReadFrom(f); err != nil {
+			return err
+		}
+		n.sprCount = &spr
+	}
+	// pk
+	if f, err := os.Open(filepath.Join(dir, "count.pk")); err == nil {
+		defer f.Close()
+		var pk plonkbn254.ProvingKey
+		if _, err := pk.ReadFrom(f); err != nil {
+			return err
+		}
+		n.pkCount = &pk
+	}
+	// vk
+	if f, err := os.Open(filepath.Join(dir, "count.vk")); err == nil {
+		defer f.Close()
+		var vk plonkbn254.VerifyingKey
+		if _, err := vk.ReadFrom(f); err != nil {
+			return err
+		}
+		n.vkCount = &vk
+	}
+	if n.sprCount == nil || n.pkCount == nil || n.vkCount == nil {
+		return fmt.Errorf("incomplete setup cache")
+	}
+	return nil
+}
+func circuitShapeHash() string {
+	// 用 MaxM 等常量 + 源码版本拼个字符串做 hash；这里简单示意：
+	h := sha256.Sum256([]byte(fmt.Sprintf("CountCircuit-MaxM=%d", MaxM)))
+	return hex.EncodeToString(h[:8])
+}
+func (n *Node) ensureSetupCount() error {
+	var retErr error
+	n.setupOnce.Do(func() {
+		cacheDir := n.SetupCacheDir
+		if cacheDir != "" {
+			cacheDir = filepath.Join(cacheDir, "count-"+circuitShapeHash())
+			if err := n.loadSetupFromDisk(cacheDir); err == nil {
+				fmt.Println("[setup] loaded from disk cache:", cacheDir)
+				return
+			}
+		}
+
+		tAll := time.Now()
+		var circuit CountCircuit
+		ccs, err := frontend.Compile(bn254fr.Modulus(), r1cs.NewBuilder, &circuit)
+		if err != nil {
+			retErr = err
+			return
+		}
+		spr, ok := ccs.(*cs.SparseR1CS)
+		if !ok {
+			retErr = fmt.Errorf("expected *cs.SparseR1CS, got %T", ccs)
+			return
+		}
+		n.sprCount = spr
+
+		pk, vk, err := plonkbn254.Setup(n.sprCount, *n.srs, n.srsLag)
+		if err != nil {
+			retErr = err
+			return
+		}
+		n.pkCount, n.vkCount = pk, vk
+		fmt.Printf("[setup] compile+setup took %s\n", time.Since(tAll))
+
+		if n.SetupCacheDir != "" {
+			_ = n.saveSetupToDisk(cacheDir)
+		}
+	})
+	return retErr
 }
 
 func NewNode(nodeID string) *Node {

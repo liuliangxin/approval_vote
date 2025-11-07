@@ -2,26 +2,49 @@ package priacy_compute
 
 import (
 	"github.com/consensys/gnark/frontend"
+	"github.com/consensys/gnark/std/hash"
+	poseidon2hash "github.com/consensys/gnark/std/hash/poseidon2"
 )
 
 // 最大候选上限（编译期常量）
-const MaxM = 256
+const MaxM = 64
+const Kmax = 8 //
 
 // CountCircuit: 计票电路（公开输入即可；后续可把某些量改为私密+哈希绑定）
 type CountCircuit struct {
 	// 公开输入
-	T    [MaxM]frontend.Variable `gnark:",public"` // 票数向量（多余槽位填 0）
-	A    [MaxM]frontend.Variable `gnark:",public"`
-	M    frontend.Variable       `gnark:",public"` // 实际候选人数 (<= MaxM)
-	D    frontend.Variable       `gnark:",public"` // d: 哈希个数
-	Tmax frontend.Variable       `gnark:",public"` // t: 每人最多批准数
-	K    frontend.Variable       `gnark:",public"` // Top-K
-
+	T  [MaxM]frontend.Variable `gnark:",public"` // 票数向量（多余槽位填 0）
+	HT frontend.Variable       `gnark:",public"`
+	//A    [MaxM]frontend.Variable `gnark:",public"`
+	M      frontend.Variable       `gnark:",public"` // 实际候选人数 (<= MaxM)
+	D      frontend.Variable       `gnark:",public"` // d: 哈希个数
+	Tmax   frontend.Variable       `gnark:",public"` // t: 每人最多批准数
+	K      frontend.Variable       `gnark:",public"` // Top-K
+	TopIdx [Kmax]frontend.Variable `gnark:",public"`
 	// （可选）把 Poseidon(T) 做成公开承诺，这里先不加，跑通再加
 }
 
 // Define 里用 frontend.API 写约束
 func (c *CountCircuit) Define(api frontend.API) error {
+
+	// --- 1) 对 T 做承诺并与公开 HT 绑定 ---
+	var h hash.FieldHasher
+	var err error
+	h, err = poseidon2hash.NewMerkleDamgardHasher(api)
+	if err != nil {
+		return err // 这里不要忽略 err
+	}
+
+	// --- 1) 对 T 做承诺并与公开 HT 绑定 ---
+	for i := 0; i < MaxM; i++ {
+		// active = 1{ i < M }
+		cmp := api.Cmp(c.M, i) // 1 if M>i, 0 if M=i, -1 if M<i
+		active := api.Select(api.IsZero(api.Sub(cmp, 1)), 0, 1)
+		ti := api.Mul(c.T[i], active)
+		h.Write(ti)
+	}
+	api.AssertIsEqual(h.Sum(), c.HT)
+
 	// maxVotes = d * k
 	maxVotes := api.Mul(c.D, c.K)
 
