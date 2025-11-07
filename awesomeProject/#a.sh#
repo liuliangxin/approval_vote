@@ -1,0 +1,14 @@
+go build main.go
+
+n=`cat sks.txt|wc -l`
+#echo $n
+#for i in seq 1 $n-1
+while read line 
+do
+	./main $line &
+done < sks.txt
+
+#echo $(sed -n '1,1p' sks.txt)
+
+
+

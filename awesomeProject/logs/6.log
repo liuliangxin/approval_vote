@@ -1,0 +1,857 @@
+Server will be started at localhost:1116...
+Received message in dispatch: &{}
+Routing message of type: *priacy_compute.TriggerVRFMsg
+Resolving message: &{}
+Successfully triggered VRF evaluation.
+Received message in dispatch: &{4 ba9cd641040a23fbee0f2e59866343124c2556d64a633a631cc01720ff8b70ae [2 70 94 205 148 112 29 5 168 19 143 139 127 168 60 144 6 242 151 155 159 50 235 33 81 101 106 241 93 100 128 21 91 155 84 30 81 111 242 178 194 11 224 23 206 225 195 17 4 9 244 111 127 101 179 172 144 43 141 254 78 179 79 206 171 28 122 13 36 59 192 224 7 129 236 108 75 187 161 238 197] exampleContext}
+Routing message of type: *priacy_compute.AggVRFMsg
+Resolving message: &{4 ba9cd641040a23fbee0f2e59866343124c2556d64a633a631cc01720ff8b70ae [2 70 94 205 148 112 29 5 168 19 143 139 127 168 60 144 6 242 151 155 159 50 235 33 81 101 106 241 93 100 128 21 91 155 84 30 81 111 242 178 194 11 224 23 206 225 195 17 4 9 244 111 127 101 179 172 144 43 141 254 78 179 79 206 171 28 122 13 36 59 192 224 7 129 236 108 75 187 161 238 197] exampleContext}
+Successfully triggered aggregation process.
+Received message in dispatch: &{3 9da2b4edce278a3eaf02231ffe701b9db6c2ce9d41024d543359f9d4e139e76b [3 67 175 168 183 111 142 199 42 123 222 241 174 47 86 45 33 85 112 78 217 188 39 223 40 226 15 161 107 254 159 74 148 34 47 245 50 130 45 115 6 27 180 31 25 191 245 151 191 5 55 230 74 17 213 34 75 138 7 63 65 155 65 41 247 164 134 175 72 0 38 8 172 206 203 109 182 255 209 2 102] exampleContext}
+Routing message of type: *priacy_compute.AggVRFMsg
+Resolving message: &{3 9da2b4edce278a3eaf02231ffe701b9db6c2ce9d41024d543359f9d4e139e76b [3 67 175 168 183 111 142 199 42 123 222 241 174 47 86 45 33 85 112 78 217 188 39 223 40 226 15 161 107 254 159 74 148 34 47 245 50 130 45 115 6 27 180 31 25 191 245 151 191 5 55 230 74 17 213 34 75 138 7 63 65 155 65 41 247 164 134 175 72 0 38 8 172 206 203 109 182 255 209 2 102] exampleContext}
+Received message in dispatch: &{6 de58fca970aa0843dfb8cccaa43419aac3464fc9d4948518724fd76be746f288 [2 209 95 77 85 121 24 140 26 167 95 82 76 207 55 120 226 101 234 184 31 145 62 46 211 126 101 136 112 253 57 208 111 105 245 201 159 212 116 35 23 107 13 183 176 159 46 7 20 4 210 178 122 1 243 34 65 181 83 144 143 11 173 124 158 39 1 250 183 164 230 174 118 15 114 4 172 154 206 14 77] exampleContext}
+Routing message of type: *priacy_compute.AggVRFMsg
+Resolving message: &{6 de58fca970aa0843dfb8cccaa43419aac3464fc9d4948518724fd76be746f288 [2 209 95 77 85 121 24 140 26 167 95 82 76 207 55 120 226 101 234 184 31 145 62 46 211 126 101 136 112 253 57 208 111 105 245 201 159 212 116 35 23 107 13 183 176 159 46 7 20 4 210 178 122 1 243 34 65 181 83 144 143 11 173 124 158 39 1 250 183 164 230 174 118 15 114 4 172 154 206 14 77] exampleContext}
+Received message in dispatch: &{10 99717e862fe78e412e71ad3e6abe005ab2d243880eb4e463d64e7c1c989ea597 [3 68 121 249 162 62 15 137 125 38 132 29 70 216 175 107 239 192 68 49 46 74 59 54 10 209 133 165 248 19 244 243 194 85 148 243 35 181 18 11 234 102 55 35 241 23 33 207 238 13 50 249 171 121 211 64 238 126 220 56 156 89 48 146 86 77 25 166 113 135 243 246 238 23 198 83 44 233 255 233 15] exampleContext}
+Routing message of type: *priacy_compute.AggVRFMsg
+Resolving message: &{10 99717e862fe78e412e71ad3e6abe005ab2d243880eb4e463d64e7c1c989ea597 [3 68 121 249 162 62 15 137 125 38 132 29 70 216 175 107 239 192 68 49 46 74 59 54 10 209 133 165 248 19 244 243 194 85 148 243 35 181 18 11 234 102 55 35 241 23 33 207 238 13 50 249 171 121 211 64 238 126 220 56 156 89 48 146 86 77 25 166 113 135 243 246 238 23 198 83 44 233 255 233 15] exampleContext}
+Received message in dispatch: &{2 bd113e6d1f4288ac444d6e8ed0e6ed772e3270e5ad9f609eb99386f65b041df3 [3 192 22 255 157 213 41 202 229 103 133 85 70 151 16 150 134 25 178 35 239 248 59 252 222 164 163 48 107 210 143 161 212 30 76 238 143 46 72 214 11 255 175 33 246 179 207 54 121 10 77 165 33 187 90 56 157 149 228 137 159 167 228 30 118 237 14 142 203 184 62 137 211 76 97 190 19 104 83 109 77] exampleContext}
+Routing message of type: *priacy_compute.AggVRFMsg
+Resolving message: &{2 bd113e6d1f4288ac444d6e8ed0e6ed772e3270e5ad9f609eb99386f65b041df3 [3 192 22 255 157 213 41 202 229 103 133 85 70 151 16 150 134 25 178 35 239 248 59 252 222 164 163 48 107 210 143 161 212 30 76 238 143 46 72 214 11 255 175 33 246 179 207 54 121 10 77 165 33 187 90 56 157 149 228 137 159 167 228 30 118 237 14 142 203 184 62 137 211 76 97 190 19 104 83 109 77] exampleContext}
+Received message in dispatch: &{9 d6dd1bbb953729d97ebdc0c19782f02631947f0a0982cec2940a931e88ba26ea [2 167 135 173 232 65 56 236 173 249 87 44 254 18 85 220 170 74 151 180 195 235 62 68 224 114 227 163 53 237 73 140 37 159 23 182 69 9 166 113 27 124 30 253 203 119 43 130 108 14 45 220 22 214 65 100 136 7 230 18 198 151 226 251 38 111 100 111 92 208 190 251 234 152 212 196 211 74 131 67 169] exampleContext}
+Routing message of type: *priacy_compute.AggVRFMsg
+Resolving message: &{9 d6dd1bbb953729d97ebdc0c19782f02631947f0a0982cec2940a931e88ba26ea [2 167 135 173 232 65 56 236 173 249 87 44 254 18 85 220 170 74 151 180 195 235 62 68 224 114 227 163 53 237 73 140 37 159 23 182 69 9 166 113 27 124 30 253 203 119 43 130 108 14 45 220 22 214 65 100 136 7 230 18 198 151 226 251 38 111 100 111 92 208 190 251 234 152 212 196 211 74 131 67 169] exampleContext}
+Received message in dispatch: &{7 0a7792d65ce5f79a8a516658f235237659810cd2f58e6933910aa04f9ba41f9a [2 10 52 113 126 39 31 2 51 56 106 192 194 0 146 223 255 35 223 73 206 171 90 98 108 142 202 200 225 22 19 144 73 107 154 180 74 23 162 185 141 23 226 33 210 52 6 226 216 2 127 149 181 136 227 215 70 162 10 104 216 58 212 169 71 145 34 139 39 98 238 173 246 0 92 249 89 20 102 157 80] exampleContext}
+Routing message of type: *priacy_compute.AggVRFMsg
+Resolving message: &{7 0a7792d65ce5f79a8a516658f235237659810cd2f58e6933910aa04f9ba41f9a [2 10 52 113 126 39 31 2 51 56 106 192 194 0 146 223 255 35 223 73 206 171 90 98 108 142 202 200 225 22 19 144 73 107 154 180 74 23 162 185 141 23 226 33 210 52 6 226 216 2 127 149 181 136 227 215 70 162 10 104 216 58 212 169 71 145 34 139 39 98 238 173 246 0 92 249 89 20 102 157 80] exampleContext}
+Received message in dispatch: &{5 f0a75610ad635995a85d9710e5bed0c99a30c82712fde38c89e405ae1b0ce4e5 [3 195 13 159 229 150 241 101 230 26 112 118 169 86 232 187 190 122 134 31 192 103 7 43 156 120 138 18 129 36 237 196 238 204 42 134 13 86 27 149 126 95 147 213 65 118 231 133 187 12 242 95 38 84 246 125 34 204 57 180 228 188 1 55 105 108 194 231 1 203 2 130 58 95 145 183 153 193 236 197 98] exampleContext}
+Routing message of type: *priacy_compute.AggVRFMsg
+Resolving message: &{5 f0a75610ad635995a85d9710e5bed0c99a30c82712fde38c89e405ae1b0ce4e5 [3 195 13 159 229 150 241 101 230 26 112 118 169 86 232 187 190 122 134 31 192 103 7 43 156 120 138 18 129 36 237 196 238 204 42 134 13 86 27 149 126 95 147 213 65 118 231 133 187 12 242 95 38 84 246 125 34 204 57 180 228 188 1 55 105 108 194 231 1 203 2 130 58 95 145 183 153 193 236 197 98] exampleContext}
+Received message in dispatch: &{1 e5e72d24d6739c0f311f5e0d47c8f6099afd1a1bc048f255f0725240218c9ca7 [3 68 196 211 231 100 54 228 13 189 206 3 36 118 4 90 5 48 239 16 73 5 189 250 207 6 145 137 94 58 249 121 155 34 147 232 55 5 99 5 22 37 17 232 242 185 90 44 74 0 65 188 92 220 248 199 121 65 131 113 173 95 187 249 218 18 184 55 142 193 244 183 247 214 220 151 84 209 171 220 222] exampleContext}
+Routing message of type: *priacy_compute.AggVRFMsg
+Resolving message: &{1 e5e72d24d6739c0f311f5e0d47c8f6099afd1a1bc048f255f0725240218c9ca7 [3 68 196 211 231 100 54 228 13 189 206 3 36 118 4 90 5 48 239 16 73 5 189 250 207 6 145 137 94 58 249 121 155 34 147 232 55 5 99 5 22 37 17 232 242 185 90 44 74 0 65 188 92 220 248 199 121 65 131 113 173 95 187 249 218 18 184 55 142 193 244 183 247 214 220 151 84 209 171 220 222] exampleContext}
+Received message in dispatch: &{8 7da84ee27647b63f6b3d8e6d4534f1be69ad27fc97ce7e5357934a2d8783fc48 [2 159 153 83 16 56 162 234 50 228 73 140 68 11 126 221 169 235 67 201 48 131 166 77 133 89 101 130 10 127 189 92 125 92 89 21 122 192 116 95 221 182 48 89 12 32 251 99 85 9 142 110 23 195 160 185 169 149 176 49 215 122 200 21 114 11 78 117 149 5 215 67 207 164 54 166 242 94 146 244 129] exampleContext}
+Routing message of type: *priacy_compute.AggVRFMsg
+Resolving message: &{8 7da84ee27647b63f6b3d8e6d4534f1be69ad27fc97ce7e5357934a2d8783fc48 [2 159 153 83 16 56 162 234 50 228 73 140 68 11 126 221 169 235 67 201 48 131 166 77 133 89 101 130 10 127 189 92 125 92 89 21 122 192 116 95 221 182 48 89 12 32 251 99 85 9 142 110 23 195 160 185 169 149 176 49 215 122 200 21 114 11 78 117 149 5 215 67 207 164 54 166 242 94 146 244 129] exampleContext}
+Server will be started at localhost:1116...
+Received message in dispatch: &{}
+Routing message of type: *priacy_compute.TriggerVRFMsg
+Resolving message: &{}
+Successfully triggered VRF evaluation.
+VRFValue: 0.510652
+VRFProof: 0282ba1d5c80a3294c99c0f0ac401746fc3f52b9d6ccee03c6083f441c98a99b771017903900d5527a785a461b32f19d1d0a6e5eb4ffcf298df3667adf1ea0c70ec533f5340c744e03655fd7c790ac5ef0
+VRFval: 0x1.05743ab901465p-01
+VRFChosen: false
+Successfully triggered aggregation process.
+Received message in dispatch: &{6 0aede5962b911659feed7d4b934b9cf9a0379f314d5fc9248d0d962fef764b5e [2 77 41 2 225 242 108 48 177 176 132 6 145 255 90 139 129 105 9 154 121 19 179 147 56 142 240 43 83 96 148 74 71 68 165 8 236 200 80 203 59 222 134 248 124 71 98 170 190 5 194 132 178 210 185 183 79 227 101 75 190 116 223 189 105 163 28 36 26 115 117 19 62 190 50 31 38 247 121 221 89] exampleContext}
+Routing message of type: *priacy_compute.AggVRFMsg
+Resolving message: &{6 0aede5962b911659feed7d4b934b9cf9a0379f314d5fc9248d0d962fef764b5e [2 77 41 2 225 242 108 48 177 176 132 6 145 255 90 139 129 105 9 154 121 19 179 147 56 142 240 43 83 96 148 74 71 68 165 8 236 200 80 203 59 222 134 248 124 71 98 170 190 5 194 132 178 210 185 183 79 227 101 75 190 116 223 189 105 163 28 36 26 115 117 19 62 190 50 31 38 247 121 221 89] exampleContext}
+Received message in dispatch: &{5 ad3bfb658a2b4d247082fa61f708b0fa56b54fdae14915710f7348e665522fad [2 65 155 72 23 184 63 19 94 189 97 53 214 33 186 29 1 242 160 20 37 127 243 129 5 61 48 76 131 50 235 238 30 25 22 25 53 47 99 240 175 211 125 202 79 194 169 37 67 14 46 154 135 2 221 111 49 69 176 74 176 190 185 227 236 27 167 176 94 55 226 242 239 205 86 106 71 188 26 18 83] exampleContext}
+Routing message of type: *priacy_compute.AggVRFMsg
+Resolving message: &{5 ad3bfb658a2b4d247082fa61f708b0fa56b54fdae14915710f7348e665522fad [2 65 155 72 23 184 63 19 94 189 97 53 214 33 186 29 1 242 160 20 37 127 243 129 5 61 48 76 131 50 235 238 30 25 22 25 53 47 99 240 175 211 125 202 79 194 169 37 67 14 46 154 135 2 221 111 49 69 176 74 176 190 185 227 236 27 167 176 94 55 226 242 239 205 86 106 71 188 26 18 83] exampleContext}
+Received message in dispatch: &{7 6ed8bb4a238a4fda4bacb69350137c02b641f6de3ec318758c4f5a4658b25515 [3 84 125 47 91 81 119 3 9 40 120 67 236 108 202 228 158 38 169 15 163 218 64 80 84 174 5 53 233 176 95 105 226 95 160 160 194 159 13 204 224 120 83 183 200 228 234 66 21 11 55 119 107 202 105 80 142 11 84 237 63 210 168 160 139 77 25 90 163 164 144 217 12 136 159 27 89 186 107 150 181] exampleContext}
+Routing message of type: *priacy_compute.AggVRFMsg
+Resolving message: &{7 6ed8bb4a238a4fda4bacb69350137c02b641f6de3ec318758c4f5a4658b25515 [3 84 125 47 91 81 119 3 9 40 120 67 236 108 202 228 158 38 169 15 163 218 64 80 84 174 5 53 233 176 95 105 226 95 160 160 194 159 13 204 224 120 83 183 200 228 234 66 21 11 55 119 107 202 105 80 142 11 84 237 63 210 168 160 139 77 25 90 163 164 144 217 12 136 159 27 89 186 107 150 181] exampleContext}
+Received message in dispatch: &{8 d45d434cc4f3bc623274ebc460b776eb23c68351fcfa12dbc9ea4ee1587cf03a [2 219 32 21 111 245 44 24 214 240 164 181 158 219 62 112 97 136 95 117 114 229 109 213 206 74 187 150 116 252 5 100 113 166 45 16 120 150 66 182 133 36 200 242 41 185 247 160 63 9 242 131 142 140 139 111 75 6 87 167 65 167 159 109 44 23 47 231 254 177 36 214 53 80 127 246 155 31 231 56 194] exampleContext}
+Routing message of type: *priacy_compute.AggVRFMsg
+Resolving message: &{8 d45d434cc4f3bc623274ebc460b776eb23c68351fcfa12dbc9ea4ee1587cf03a [2 219 32 21 111 245 44 24 214 240 164 181 158 219 62 112 97 136 95 117 114 229 109 213 206 74 187 150 116 252 5 100 113 166 45 16 120 150 66 182 133 36 200 242 41 185 247 160 63 9 242 131 142 140 139 111 75 6 87 167 65 167 159 109 44 23 47 231 254 177 36 214 53 80 127 246 155 31 231 56 194] exampleContext}
+Received message in dispatch: &{10 d2e95e2d77a8710fa3e3ae1853c5a33fd2b3034bddcb72e2bc2825caec9f251c [3 149 73 134 118 209 130 95 108 140 137 50 227 0 201 133 167 237 171 93 249 154 67 152 52 122 60 13 1 173 162 14 238 21 107 238 166 217 73 214 40 56 3 150 18 234 0 58 98 5 1 224 185 7 33 42 185 33 116 81 124 2 80 237 69 200 46 89 115 156 184 171 36 172 94 124 135 170 12 58 207] exampleContext}
+Routing message of type: *priacy_compute.AggVRFMsg
+Resolving message: &{10 d2e95e2d77a8710fa3e3ae1853c5a33fd2b3034bddcb72e2bc2825caec9f251c [3 149 73 134 118 209 130 95 108 140 137 50 227 0 201 133 167 237 171 93 249 154 67 152 52 122 60 13 1 173 162 14 238 21 107 238 166 217 73 214 40 56 3 150 18 234 0 58 98 5 1 224 185 7 33 42 185 33 116 81 124 2 80 237 69 200 46 89 115 156 184 171 36 172 94 124 135 170 12 58 207] exampleContext}
+Received message in dispatch: &{9 89a372f354ee487f93afbf4fcd7490d0790d863a2795808d88a75b3b3f605375 [2 143 210 194 173 103 249 43 199 124 115 57 255 157 149 249 26 153 228 176 120 92 98 204 195 143 29 125 210 156 227 110 65 121 61 179 232 50 162 89 230 131 163 175 87 245 171 60 201 1 14 115 62 9 41 49 170 113 98 128 21 168 118 81 94 8 79 161 19 243 8 202 94 209 74 97 15 178 168 122 120] exampleContext}
+Routing message of type: *priacy_compute.AggVRFMsg
+Resolving message: &{9 89a372f354ee487f93afbf4fcd7490d0790d863a2795808d88a75b3b3f605375 [2 143 210 194 173 103 249 43 199 124 115 57 255 157 149 249 26 153 228 176 120 92 98 204 195 143 29 125 210 156 227 110 65 121 61 179 232 50 162 89 230 131 163 175 87 245 171 60 201 1 14 115 62 9 41 49 170 113 98 128 21 168 118 81 94 8 79 161 19 243 8 202 94 209 74 97 15 178 168 122 120] exampleContext}
+Server will be started at localhost:1116...
+Received message in dispatch: &{}
+Routing message of type: *priacy_compute.TriggerVRFMsg
+Resolving message: &{}
+Successfully triggered VRF evaluation.
+VRFValue: 0.123989
+VRFProof: 021fbdbf1246f0ee4100c51adc598bf08f7c56916395999f5bed55fa740ab90b4642950505236492159873726b0b2c7bf701e245ead4606617f1caa54a35c8baf3055b76cf4a36165d38bdbbbe59edbe8d
+VRFval: 0x1.fbdbf1246f0eep-04
+VRFChosen: true
+Bloom Params - M: 10, T: 3, EpsBF: 0.010000
+Bloom L: 29, D: 7
+Approved Indices: [0 7 5]
+Successfully triggered aggregation process.
+Received message in dispatch: &{6 3086233b4ee20a87a6f4c346ad5e41492a11512a9c06fbe6a8b75bb98a8ac37e [2 4 220 238 135 213 39 70 14 52 92 7 13 22 103 148 61 232 152 21 0 127 60 121 213 238 88 61 57 129 230 162 115 215 181 24 79 15 58 158 159 159 93 105 249 197 214 245 209 4 23 122 96 92 224 176 30 90 161 27 9 230 35 216 141 215 254 93 234 162 252 170 205 247 144 67 62 160 123 137 163] exampleContext}
+Routing message of type: *priacy_compute.AggVRFMsg
+Resolving message: &{6 3086233b4ee20a87a6f4c346ad5e41492a11512a9c06fbe6a8b75bb98a8ac37e [2 4 220 238 135 213 39 70 14 52 92 7 13 22 103 148 61 232 152 21 0 127 60 121 213 238 88 61 57 129 230 162 115 215 181 24 79 15 58 158 159 159 93 105 249 197 214 245 209 4 23 122 96 92 224 176 30 90 161 27 9 230 35 216 141 215 254 93 234 162 252 170 205 247 144 67 62 160 123 137 163] exampleContext}
+Received message in dispatch: &{7 f7fe956597d7d22435c812aa07faaa301e67e6b1cbe62be3ebb9ef69c8f12160 [2 21 30 238 176 53 250 76 191 255 80 243 82 236 48 102 146 229 80 68 117 6 31 131 157 138 62 123 221 83 12 229 115 249 187 213 16 198 249 16 20 138 156 54 132 197 124 80 81 13 7 118 180 207 199 143 100 209 185 255 82 219 215 75 215 193 250 221 180 168 176 99 126 113 180 92 243 186 51 209 116] exampleContext}
+Routing message of type: *priacy_compute.AggVRFMsg
+Resolving message: &{7 f7fe956597d7d22435c812aa07faaa301e67e6b1cbe62be3ebb9ef69c8f12160 [2 21 30 238 176 53 250 76 191 255 80 243 82 236 48 102 146 229 80 68 117 6 31 131 157 138 62 123 221 83 12 229 115 249 187 213 16 198 249 16 20 138 156 54 132 197 124 80 81 13 7 118 180 207 199 143 100 209 185 255 82 219 215 75 215 193 250 221 180 168 176 99 126 113 180 92 243 186 51 209 116] exampleContext}
+Received message in dispatch: &{8 cfbe03c25f80c7e45de022d9f7fe5dfb1be5821004d97a99230405570c49b037 [2 243 96 164 242 232 40 28 26 174 32 144 176 204 1 191 96 200 71 47 161 117 132 40 130 231 43 109 181 193 213 126 52 117 142 85 143 237 228 123 80 86 228 59 235 252 106 20 46 11 19 180 91 232 141 39 8 66 144 140 163 192 144 138 211 212 250 107 225 98 73 206 157 144 156 167 125 137 187 22 211] exampleContext}
+Routing message of type: *priacy_compute.AggVRFMsg
+Resolving message: &{8 cfbe03c25f80c7e45de022d9f7fe5dfb1be5821004d97a99230405570c49b037 [2 243 96 164 242 232 40 28 26 174 32 144 176 204 1 191 96 200 71 47 161 117 132 40 130 231 43 109 181 193 213 126 52 117 142 85 143 237 228 123 80 86 228 59 235 252 106 20 46 11 19 180 91 232 141 39 8 66 144 140 163 192 144 138 211 212 250 107 225 98 73 206 157 144 156 167 125 137 187 22 211] exampleContext}
+Received message in dispatch: &{10 48fd440ae2b90a78992927b2542fb805faa72de57faa53d5ffef312329672441 [3 13 205 34 235 224 106 255 16 170 185 205 63 20 193 51 206 174 135 86 252 106 9 21 196 89 87 43 209 79 30 152 135 8 220 107 130 38 178 27 35 193 206 208 111 199 148 138 250 11 92 82 81 53 84 157 117 61 163 147 231 245 153 190 142 111 62 152 252 253 121 168 2 195 214 61 123 104 113 229 235] exampleContext}
+Routing message of type: *priacy_compute.AggVRFMsg
+Received message in dispatch: &{9 e12941ec7de6221eb9dce95fa857023fc55d1ce1211b85c6b08ca197de892a76 [2 198 76 95 24 207 101 63 171 1 15 109 6 35 76 104 174 109 237 11 198 250 125 210 60 106 245 2 66 143 139 113 47 96 245 124 147 231 77 202 46 116 238 253 0 113 172 72 104 10 131 213 77 100 110 23 204 89 35 135 107 255 1 39 11 45 123 63 216 77 210 153 154 52 239 168 251 249 140 149 74] exampleContext}
+Routing message of type: *priacy_compute.AggVRFMsg
+Resolving message: &{10 48fd440ae2b90a78992927b2542fb805faa72de57faa53d5ffef312329672441 [3 13 205 34 235 224 106 255 16 170 185 205 63 20 193 51 206 174 135 86 252 106 9 21 196 89 87 43 209 79 30 152 135 8 220 107 130 38 178 27 35 193 206 208 111 199 148 138 250 11 92 82 81 53 84 157 117 61 163 147 231 245 153 190 142 111 62 152 252 253 121 168 2 195 214 61 123 104 113 229 235] exampleContext}
+Resolving message: &{9 e12941ec7de6221eb9dce95fa857023fc55d1ce1211b85c6b08ca197de892a76 [2 198 76 95 24 207 101 63 171 1 15 109 6 35 76 104 174 109 237 11 198 250 125 210 60 106 245 2 66 143 139 113 47 96 245 124 147 231 77 202 46 116 238 253 0 113 172 72 104 10 131 213 77 100 110 23 204 89 35 135 107 255 1 39 11 45 123 63 216 77 210 153 154 52 239 168 251 249 140 149 74] exampleContext}
+Server will be started at localhost:1116...
+Error triggering VRF: Post "http://localhost:1116/vrf/eval": dial tcp [::1]:1116: connectex: No connection could be made because the target machine actively refused it.
+Received message in dispatch: &{10 d2a3d2f4325166fd1087d17bf03f3bc7314813137723a8c7b091a68fc717d223 [2 147 101 93 110 79 205 233 5 7 226 117 125 142 245 220 104 20 168 247 32 87 77 219 185 51 158 118 16 253 110 55 75 56 148 205 79 31 90 122 27 229 133 194 173 37 233 224 16 15 156 4 115 163 198 197 52 223 158 124 152 40 79 179 108 76 8 23 118 28 203 123 92 167 199 243 184 156 183 36 156] exampleContext}
+Routing message of type: *priacy_compute.AggVRFMsg
+Resolving message: &{10 d2a3d2f4325166fd1087d17bf03f3bc7314813137723a8c7b091a68fc717d223 [2 147 101 93 110 79 205 233 5 7 226 117 125 142 245 220 104 20 168 247 32 87 77 219 185 51 158 118 16 253 110 55 75 56 148 205 79 31 90 122 27 229 133 194 173 37 233 224 16 15 156 4 115 163 198 197 52 223 158 124 152 40 79 179 108 76 8 23 118 28 203 123 92 167 199 243 184 156 183 36 156] exampleContext}
+Server will be started at localhost:1116...
+Received message in dispatch: &{}
+Routing message of type: *priacy_compute.TriggerVRFMsg
+Resolving message: &{}
+Successfully triggered VRF evaluation.
+VRFValue: 0.150426
+VRFProof: 03268257fd091c5ffdf7f6ae3cbdf920f41fc2baaecd15a1aed8a0f25a37be64cedd360d17942f99d743edbd1268c9b3230bd27788ecd8be48d4fb399c2dc93e5ba8f03a8e12afdc3a0253b9862e94227a
+VRFval: 0x1.3412bfe848e3p-03
+VRFChosen: true
+Bloom Params - M: 10, T: 3, EpsBF: 0.010000
+Bloom L: 29, D: 7
+Approved Indices: [2 7 4]
+Node 1 selected as Aggregator 1
+Node 2 selected as Aggregator 2
+Successfully triggered aggregation process.
+Server will be started at localhost:1116...
+Received message in dispatch: &{}
+Routing message of type: *priacy_compute.TriggerVRFMsg
+Resolving message: &{}
+VRFValue: 0.325448
+VRFProof: 025350934b8ea54c80b16d5c78de22400a702658293cb95c819620dfab429d9c2e3f6ba79c821cdf662b901ae54ac8ff6c0151297a3185b9aca3d521bee5b1c47b9887eb20011316145978acaf8b8b81a0
+VRFval: 0x1.4d424d2e3a953p-02
+VRFChosen: false
+Bloom Params - M: 10, T: 3, EpsBF: 0.010000
+Bloom L: 29, D: 7
+Approved Indices: [5 1 8]
+Successfully triggered VRF evaluation.
+Node 1 selected as Aggregator 1
+Node 2 selected as Aggregator 2
+Successfully triggered aggregation process.
+Server will be started at localhost:1116...
+Received message in dispatch: &{}
+Routing message of type: *priacy_compute.TriggerVRFMsg
+Resolving message: &{}
+VRFValue: 0.597319
+VRFProof: 0398e9e502cd1b6513dc8886e69581a97cdc00a023473e754df0ac622ef07dbca9f93a34c9d535ec8f3b23a35ba9eafef40aa56b73a4acbf11780a8a05d4964cfbb5d6e7128dc220f9a91eb6e36fa81c07
+VRFval: 0x1.31d3ca059a36dp-01
+VRFChosen: false
+Bloom Params - M: 10, T: 3, EpsBF: 0.010000
+Bloom L: 29, D: 7
+Approved Indices: [1 4 5]
+Successfully triggered VRF evaluation.
+Received message in dispatch: &{[1 4 5]}
+Routing message of type: *priacy_compute.LocalApproveVoteMsg
+Successfully triggered local approve vote.
+Resolving message: &{[1 4 5]}
+Node 1 selected as Aggregator 1
+Node 2 selected as Aggregator 2
+Successfully triggered aggregation process.
+Server will be started at localhost:1116...
+Received message in dispatch: &{}
+Routing message of type: *priacy_compute.TriggerVRFMsg
+Resolving message: &{}
+Successfully triggered VRF evaluation.
+VRFValue: 0.050316
+VRFProof: 020ce187a7e52c36c030affccbf44251eac855627246952e32eb2f4aa7a567741f8f5362c7fdc89ba2da32470af4d0797704749dcc679cadadccb89c2d8b2b0c822e66a44bc0d7d00b489a08aca45e8097
+VRFval: 0x1.9c30f4fca586ep-05
+VRFChosen: true
+Bloom Params - M: 10, T: 3, EpsBF: 0.010000
+Bloom L: 29, D: 7
+Approved Indices: [4 1 3]
+Received message in dispatch: &{[4 1 3]}
+Routing message of type: *priacy_compute.LocalApproveVoteMsg
+Node 1 selected as Aggregator 1
+Node 2 selected as Aggregator 2
+Successfully triggered local approve vote.
+Resolving message: &{[4 1 3]}
+Cleaned and Validated Approved Indices: [4 1 3]
+Successfully triggered aggregation process.
+Pedersen Commitment: 0200000000000000 (len=33)
+Range Proof prefix: 02000000000000000000000000000000... (len=721)
+[vote/send] pkt1 -> 1 (part=1)
+[vote/send] from=6 -> to=1 url=http://localhost:1111/vote/share
+[vote/send] part=1 L=29 D=7 sumOnes=17 shares_len=29
+[vote/send] pedersenCom(hex)=0200000000000000...
+[vote/send] rangeProof(hex)=02000000000000000000000000000000...
+[vote/send] pkt2 -> 2 (part=2)
+[vote/send] from=6 -> to=2 url=http://localhost:1112/vote/share
+[vote/send] part=2 L=29 D=7 sumOnes=17 shares_len=29
+[vote/send] pedersenCom(hex)=0200000000000000...
+[vote/send] rangeProof(hex)=02000000000000000000000000000000...
+Server will be started at localhost:1116...
+Received message in dispatch: &{}
+Routing message of type: *priacy_compute.TriggerVRFMsg
+Resolving message: &{}
+VRFValue: 0.077169
+VRFProof: 0213c15783862ac4a7b7f238118909a76e3e218c8edd71697dc13648bc7911344f003d3b416b33076430408e8ebfb2ce8d0de80d3e3bfef487d40ddfbbac66665430add067140b69ae3b97db57e3b4b934
+VRFval: 0x1.3c15783862ac5p-04
+VRFChosen: true
+Bloom Params - M: 10, T: 3, EpsBF: 0.010000
+Bloom L: 29, D: 7
+Approved Indices: [9 1 7]
+Successfully triggered VRF evaluation.
+Node 1 selected as Aggregator 1
+Node 2 selected as Aggregator 2
+Successfully triggered aggregation process.
+Received message in dispatch: &{[9 1 7]}
+Routing message of type: *priacy_compute.LocalApproveVoteMsg
+Successfully triggered local approve vote.
+Resolving message: &{[9 1 7]}
+Cleaned and Validated Approved Indices: [9 1 7]
+Pedersen Commitment: 0200000000000000 (len=33)
+Range Proof prefix: 02000000000000000000000000000000... (len=721)
+[vote/send] pkt1 -> 1 (part=1)
+[vote/send] from=6 -> to=1 url=http://localhost:1111/vote/share
+[vote/send] part=1 L=29 D=7 sumOnes=16 shares_len=29
+[vote/send] pedersenCom(hex)=0200000000000000...
+[vote/send] rangeProof(hex)=02000000000000000000000000000000...
+[vote/send] pkt2 -> 2 (part=2)
+[vote/send] from=6 -> to=2 url=http://localhost:1112/vote/share
+[vote/send] part=2 L=29 D=7 sumOnes=16 shares_len=29
+[vote/send] pedersenCom(hex)=0200000000000000...
+[vote/send] rangeProof(hex)=02000000000000000000000000000000...
+Server will be started at localhost:1116...
+Received message in dispatch: &{}
+Routing message of type: *priacy_compute.TriggerVRFMsg
+Resolving message: &{}
+Successfully triggered VRF evaluation.
+VRFValue: 0.959415
+VRFProof: 02f59c347099dae83f45794dd4928f2fe4ee7a476bec6e57bd0cbd92a4a82c681ca621d04ad28f34b148e3daa931fc6ecf0ae31412979e573a719d75d25b427d6c41e3b39cb6da635aa6b69f7644e47966
+VRFval: 0x1.eb3868e133b5dp-01
+VRFChosen: false
+Bloom Params - M: 10, T: 3, EpsBF: 0.010000
+Bloom L: 29, D: 7
+Approved Indices: [1 6 3]
+Received message in dispatch: &{[1 6 3]}
+Routing message of type: *priacy_compute.LocalApproveVoteMsg
+Successfully triggered local approve vote.
+Resolving message: &{[1 6 3]}
+Node 1 selected as Aggregator 1
+Node 2 selected as Aggregator 2
+Successfully triggered aggregation process.
+Server will be started at localhost:1116...
+Received message in dispatch: &{}
+Routing message of type: *priacy_compute.TriggerVRFMsg
+Resolving message: &{}
+Successfully triggered VRF evaluation.
+VRFValue: 0.500153
+VRFProof: 03800a00bd89d90fd4113a8e6ff2cf9a9824b70827a283cddb4ba105a9cfcb69a021c0de87e23a9b4d0848833b988c522907045cb75250f9dbb53a89cca0ce64a771294f0d65b9f691c044fd44349de0b7
+VRFval: 0x1.0014017b13b22p-01
+VRFChosen: false
+Bloom Params - M: 10, T: 3, EpsBF: 0.010000
+Bloom L: 29, D: 7
+Approved Indices: [1 0 2]
+Successfully triggered local approve vote.
+Received message in dispatch: &{[1 0 2]}
+Routing message of type: *priacy_compute.LocalApproveVoteMsg
+Resolving message: &{[1 0 2]}
+Node 1 selected as Aggregator 1
+Node 2 selected as Aggregator 2
+Successfully triggered aggregation process.
+Server will be started at localhost:1116...
+Received message in dispatch: &{}
+Routing message of type: *priacy_compute.TriggerVRFMsg
+Resolving message: &{}
+Successfully triggered VRF evaluation.
+VRFValue: 0.856512
+VRFProof: 03db4460483bdf40baa3dcd3f42b96e04f1a5c1743680ea9d14155b19dd63083eb22b8b97578feadaa8d32cd043c904bf405495d39cd64d066ce8ce010052c54b36ce1136527c0f4bf9eed9f4c438ef939
+VRFval: 0x1.b688c09077be8p-01
+VRFChosen: false
+Bloom Params - M: 10, T: 3, EpsBF: 0.010000
+Bloom L: 29, D: 7
+Approved Indices: [3 8 9]
+Node 1 selected as Aggregator 1
+Node 2 selected as Aggregator 2
+Successfully triggered aggregation process.
+Received message in dispatch: &{[3 8 9]}
+Routing message of type: *priacy_compute.LocalApproveVoteMsg
+Successfully triggered local approve vote.
+Resolving message: &{[3 8 9]}
+Cleaned and Validated Approved Indices: [3 8 9]
+Pedersen Commitment: 0200000000000000 (len=33)
+Range Proof prefix: 02000000000000000000000000000000... (len=721)
+[vote/send] pkt1 -> 1 (part=1)
+[vote/send] from=6 -> to=1 url=http://localhost:1111/vote/share
+[vote/send] part=1 L=29 D=7 sumOnes=15 shares_len=29
+[vote/send] pedersenCom(hex)=0200000000000000...
+[vote/send] rangeProof(hex)=02000000000000000000000000000000...
+[vote/send] pkt2 -> 2 (part=2)
+[vote/send] from=6 -> to=2 url=http://localhost:1112/vote/share
+[vote/send] part=2 L=29 D=7 sumOnes=15 shares_len=29
+[vote/send] pedersenCom(hex)=0200000000000000...
+[vote/send] rangeProof(hex)=02000000000000000000000000000000...
+Server will be started at localhost:1116...
+Received message in dispatch: &{}
+Routing message of type: *priacy_compute.TriggerVRFMsg
+Resolving message: &{}
+Successfully triggered VRF evaluation.
+VRFValue: 0.347565
+VRFProof: 0358fa035196a81056ccb91f9bd39fcada5a99435714745ebaf63042d14cf70aec3db33f6e4536573acdb4620e187155dd0c71beb406999510712dbd49638a7226bbd1d8defb43f3d418a56f0792c628a0
+VRFval: 0x1.63e80d465aa04p-02
+VRFChosen: false
+Bloom Params - M: 10, T: 3, EpsBF: 0.010000
+Bloom L: 29, D: 7
+Approved Indices: [4 3 9]
+Received message in dispatch: &{[4 3 9]}
+Successfully triggered local approve vote.
+Routing message of type: *priacy_compute.LocalApproveVoteMsg
+Resolving message: &{[4 3 9]}
+Node 1 selected as Aggregator 1
+Node 2 selected as Aggregator 2
+Successfully triggered aggregation process.
+Server will be started at localhost:1116...
+Received message in dispatch: &{}
+Routing message of type: *priacy_compute.TriggerVRFMsg
+Resolving message: &{}
+Successfully triggered VRF evaluation.
+VRFValue: 0.502181
+VRFProof: 02808ee9c814213c59ac6fcdffe7b5abf9f76d769f60f69b6a9b480c5460ff8b756247c4ebeb947ecf68f5a82cf3d0b48f0dceacba27efb42c2f71783be0052da3536203e2361f970c7a7c8de1f1d6fbb1
+VRFval: 0x1.011dd39028428p-01
+VRFChosen: false
+Bloom Params - M: 10, T: 3, EpsBF: 0.010000
+Bloom L: 29, D: 7
+Approved Indices: [1 8 4]
+Received message in dispatch: &{[1 8 4]}
+Routing message of type: *priacy_compute.LocalApproveVoteMsg
+Successfully triggered local approve vote.
+Resolving message: &{[1 8 4]}
+Node 1 selected as Aggregator 1
+Node 2 selected as Aggregator 2
+Successfully triggered aggregation process.
+Server will be started at localhost:1116...
+Received message in dispatch: &{}
+Routing message of type: *priacy_compute.TriggerVRFMsg
+Resolving message: &{}
+Successfully triggered VRF evaluation.
+VRFValue: 0.634901
+VRFProof: 02a288dc8213bcb2d44e95b272f4d86e09c4e38db368c0957d4762ea50a1629c0ef6feeb4c649a527262432997240a73520216cb9afef7ba978f911b1c1a7f38154046b57c5dcd4101643a0466fc8f6858
+VRFval: 0x1.4511b90427796p-01
+VRFChosen: false
+Bloom Params - M: 10, T: 3, EpsBF: 0.010000
+Bloom L: 29, D: 7
+Approved Indices: [1 2 0]
+[AggSelect] self=6 IsAgg=false part=0 A=1 B=2
+Successfully triggered local approve vote.
+Received message in dispatch: &{[1 2 0]}
+Routing message of type: *priacy_compute.LocalApproveVoteMsg
+Resolving message: &{[1 2 0]}
+Cleaned and Validated Approved Indices: [1 2 0]
+Successfully triggered aggregation process.
+Pedersen Commitment: 0200000000000000 (len=33)
+Range Proof prefix: 02000000000000000000000000000000... (len=721)
+[vote/send] pkt1 -> 1 (part=1)
+[vote/send] from=6 -> to=1 url=http://localhost:1111/vote/share
+[vote/send] part=1 L=29 D=7 sumOnes=17 shares_len=29
+[vote/send] pedersenCom(hex)=0200000000000000...
+[vote/send] rangeProof(hex)=02000000000000000000000000000000...
+Server will be started at localhost:1116...
+Received message in dispatch: &{}
+Routing message of type: *priacy_compute.TriggerVRFMsg
+Resolving message: &{}
+Successfully triggered VRF evaluation.
+VRFValue: 0.630433
+VRFProof: 02a16416afd74f80535e60797aab0bd7722c59288dc8e5bc010fe14b519b122a32545d601c052bdcbf04141d4c5d8f38860b90d949918b8e1071ef917a0c20e114e997fec766c1ccafe887c970f7a3c1f6
+VRFval: 0x1.42c82d5fae9fp-01
+VRFChosen: false
+Bloom Params - M: 10, T: 3, EpsBF: 0.010000
+Bloom L: 29, D: 7
+Approved Indices: [8 3 7]
+Received message in dispatch: &{[8 3 7]}
+Routing message of type: *priacy_compute.LocalApproveVoteMsg
+Successfully triggered local approve vote.
+Resolving message: &{[8 3 7]}
+[AggSelect] self=6 IsAgg=false part=0 A=1 B=2
+Successfully triggered aggregation process.
+Server will be started at localhost:1116...
+Received message in dispatch: &{}
+Routing message of type: *priacy_compute.TriggerVRFMsg
+Resolving message: &{}
+Successfully triggered VRF evaluation.
+VRFValue: 0.098042
+VRFProof: 0319194c53ecad86ec953fc25eea46bf43e02d6e9e75674095e214199dfe5b6fa0d752da1f03cc0f8e70f2a7bcc29fe5b90d6ed29e25d7d8885ed0e24c81c78ecf985cc847a8406771910ad16d9c90c446
+VRFval: 0x1.9194c53ecad87p-04
+VRFChosen: true
+Bloom Params - M: 10, T: 3, EpsBF: 0.010000
+Bloom L: 29, D: 7
+Approved Indices: [0 3 2]
+Received message in dispatch: &{[0 3 2]}
+Routing message of type: *priacy_compute.LocalApproveVoteMsg
+Successfully triggered local approve vote.
+Resolving message: &{[0 3 2]}
+[AggSelect] self=6 IsAgg=false part=0 A=1 B=2
+Successfully triggered aggregation process.
+Server will be started at localhost:1116...
+Received message in dispatch: &{}
+Routing message of type: *priacy_compute.TriggerVRFMsg
+Resolving message: &{}
+Successfully triggered VRF evaluation.
+VRFValue: 0.505924
+VRFProof: 0381843c71535d24f82834bab5ded2b9738adb994302deff277d0272b3b4e1068c9a81a60a91d29bcb3b17b0b93890cc730f4ebc66ebac81a7c776d19167c7f16a7099cdf2af7a7b70eabe14a8609265b0
+VRFval: 0x1.030878e2a6ba5p-01
+VRFChosen: false
+Bloom Params - M: 10, T: 3, EpsBF: 0.010000
+Bloom L: 29, D: 7
+Approved Indices: [8 2 0]
+Received message in dispatch: &{[8 2 0]}
+Routing message of type: *priacy_compute.LocalApproveVoteMsg
+Successfully triggered local approve vote.
+Resolving message: &{[8 2 0]}
+[AggSelect] self=6 IsAgg=false part=0 A=1 B=2
+Successfully triggered aggregation process.
+Server will be started at localhost:1116...
+Received message in dispatch: &{}
+Routing message of type: *priacy_compute.TriggerVRFMsg
+Resolving message: &{}
+Successfully triggered VRF evaluation.
+VRFValue: 0.589126
+VRFProof: 0296d0f6c4959c8bf81e6bb021a2bb61f9e9e75b3b0a33b7f47cc76c0dd43f5b3511777eab51c7dc1e02f00df4874d9d7b000ff5857204e799f72082753164804e0a1042350e3f72ff53991b58c70613e3
+VRFval: 0x1.2da1ed892b391p-01
+VRFChosen: false
+Bloom Params - M: 10, T: 3, EpsBF: 0.010000
+Bloom L: 29, D: 7
+Approved Indices: [6 7 1]
+[AggSelect] self=6 IsAgg=false part=0 A=1 B=2
+Successfully triggered aggregation process.
+Received message in dispatch: &{[6 7 1]}
+Routing message of type: *priacy_compute.LocalApproveVoteMsg
+Successfully triggered local approve vote.
+Resolving message: &{[6 7 1]}
+Cleaned and Validated Approved Indices: [6 7 1]
+Pedersen Commitment: 0200000000000000 (len=33)
+Range Proof prefix: 02000000000000000000000000000000... (len=721)
+[vote/send] pkt1 -> 1 (part=1)
+[vote/send] from=6 -> to=1 url=http://localhost:1111/vote/share
+[vote/send] part=1 L=29 D=7 sumOnes=17 shares_len=29
+[vote/send] pedersenCom(hex)=0200000000000000...
+[vote/send] rangeProof(hex)=02000000000000000000000000000000...
+[vote/send] pkt2 -> 2 (part=2)
+[vote/send] from=6 -> to=2 url=http://localhost:1112/vote/share
+[vote/send] part=2 L=29 D=7 sumOnes=17 shares_len=29
+[vote/send] pedersenCom(hex)=0200000000000000...
+[vote/send] rangeProof(hex)=02000000000000000000000000000000...
+Server will be started at localhost:1116...
+Received message in dispatch: &{}
+Routing message of type: *priacy_compute.TriggerVRFMsg
+Resolving message: &{}
+Successfully triggered VRF evaluation.
+VRFValue: 0.864678
+VRFProof: 03dd5b82ef86e7abd43378e8b50ff6876ef3c9847b798c743a9bdf81b27a58d185ceae87f5d6dd2e235eff5d8bf5a8db9206799fd8a779f2f8e0801fb678c2c5bb903eebd703cad47f66e967842c5752b8
+VRFval: 0x1.bab705df0dcf5p-01
+VRFChosen: false
+Bloom Params - M: 10, T: 3, EpsBF: 0.010000
+Bloom L: 29, D: 7
+Approved Indices: [9 3 6]
+Received message in dispatch: &{[9 3 6]}
+Routing message of type: *priacy_compute.LocalApproveVoteMsg
+Successfully triggered local approve vote.
+Resolving message: &{[9 3 6]}
+[AggSelect] self=6 IsAgg=false part=0 A=1 B=2
+Successfully triggered aggregation process.
+Server will be started at localhost:1116...
+Received message in dispatch: &{}
+Routing message of type: *priacy_compute.TriggerVRFMsg
+Resolving message: &{}
+Successfully triggered VRF evaluation.
+VRFValue: 0.385178
+VRFProof: 02629b00c81d945d89536edac72dc7557a848c0184f585df2898f5423761416f03018e5215d5b7733e32a56259fcbe96a5098cbdb7f088108c936a0f3cd593487c21cca9cbdae64a1295549052c146b4a7
+VRFval: 0x1.8a6c032076517p-02
+VRFChosen: false
+Bloom Params - M: 10, T: 3, EpsBF: 0.010000
+Bloom L: 29, D: 7
+Approved Indices: [7 0 3]
+Received message in dispatch: &{[7 0 3]}
+Routing message of type: *priacy_compute.LocalApproveVoteMsg
+Successfully triggered local approve vote.
+Resolving message: &{[7 0 3]}
+[AggSelect] self=6 IsAgg=false part=0 A=1 B=2
+Successfully triggered aggregation process.
+Server will be started at localhost:1116...
+Received message in dispatch: &{}
+Routing message of type: *priacy_compute.TriggerVRFMsg
+Resolving message: &{}
+Successfully triggered VRF evaluation.
+VRFValue: 0.310246
+VRFProof: 024f6c4f05700d8db145b89e8855c47f54a69ebac29c99818859a1a74a8933be6ec75b231b8a3bf451b70e1d0a53975e410fe9725244ab16471293948205730d269e2c699450cacd857892f0a7b21441ba
+VRFval: 0x1.3db13c15c0363p-02
+VRFChosen: false
+Bloom Params - M: 10, T: 3, EpsBF: 0.010000
+Bloom L: 29, D: 7
+Approved Indices: [5 8 4]
+Received message in dispatch: &{[5 8 4]}
+Routing message of type: *priacy_compute.LocalApproveVoteMsg
+Successfully triggered local approve vote.
+Resolving message: &{[5 8 4]}
+[AggSelect] self=6 IsAgg=false part=0 A=1 B=2
+Successfully triggered aggregation process.
+Server will be started at localhost:1116...
+Received message in dispatch: &{}
+Routing message of type: *priacy_compute.TriggerVRFMsg
+Resolving message: &{}
+Successfully triggered VRF evaluation.
+VRFValue: 0.976691
+VRFProof: 02fa086dcc1f28aa54db45553a07ad2a51f60676da3d3a5b15703368cab75a78673bf40818ad05fba5372f24a23a2cc5bf0f7008756cb551ae44d403d4c3645cfd6bd647cd5ba37f5c4e5191f48430beba
+VRFval: 0x1.f410db983e515p-01
+VRFChosen: false
+Bloom Params - M: 10, T: 3, EpsBF: 0.010000
+Bloom L: 29, D: 7
+Approved Indices: [4 9 0]
+[AggSelect] self=6 IsAgg=false part=0 A=1 B=2
+Successfully triggered aggregation process.
+Received message in dispatch: &{[4 9 0]}
+Routing message of type: *priacy_compute.LocalApproveVoteMsg
+Successfully triggered local approve vote.
+Resolving message: &{[4 9 0]}
+Cleaned and Validated Approved Indices: [4 9 0]
+Pedersen Commitment: 0200000000000000 (len=33)
+Range Proof prefix: 02000000000000000000000000000000... (len=721)
+[vote/send] pkt1 -> 1 (part=1)
+[vote/send] from=6 -> to=1 url=http://localhost:1111/vote/share
+[vote/send] part=1 L=29 D=7 sumOnes=16 shares_len=29
+[vote/send] pedersenCom(hex)=0200000000000000...
+[vote/send] rangeProof(hex)=02000000000000000000000000000000...
+[vote/send] pkt2 -> 2 (part=2)
+[vote/send] from=6 -> to=2 url=http://localhost:1112/vote/share
+[vote/send] part=2 L=29 D=7 sumOnes=16 shares_len=29
+[vote/send] pedersenCom(hex)=0200000000000000...
+[vote/send] rangeProof(hex)=02000000000000000000000000000000...
+Server will be started at localhost:1116...
+Received message in dispatch: &{}
+Routing message of type: *priacy_compute.TriggerVRFMsg
+Resolving message: &{}
+Successfully triggered VRF evaluation.
+VRFValue: 0.053026
+VRFProof: 030d932390e96e646d368a0b6a5a14dd2471990ff03d381c0ec74e0b3ce35228ad9a007aaaa06d4c28602ec98cd66e87ba0c4119b27075fb7eb334831f859c1b0e7582aca356cf36aeca5bde0791ce2f03
+VRFval: 0x1.b264721d2dcc9p-05
+VRFChosen: true
+Bloom Params - M: 10, T: 3, EpsBF: 0.010000
+Bloom L: 29, D: 7
+Approved Indices: [4 8 0]
+[AggSelect] self=6 IsAgg=false part=0 A=1 B=2
+Successfully triggered aggregation process.
+Received message in dispatch: &{[4 8 0]}
+Routing message of type: *priacy_compute.LocalApproveVoteMsg
+Successfully triggered local approve vote.
+Resolving message: &{[4 8 0]}
+Cleaned and Validated Approved Indices: [4 8 0]
+Pedersen Commitment: 0200000000000000 (len=33)
+Range Proof prefix: 02000000000000000000000000000000... (len=721)
+[vote/send] pkt1 -> 1 (part=1)
+[vote/send] from=6 -> to=1 url=http://localhost:1111/vote/share
+[vote/send] part=1 L=29 D=7 sumOnes=14 shares_len=29
+[vote/send] pedersenCom(hex)=0200000000000000...
+[vote/send] rangeProof(hex)=02000000000000000000000000000000...
+[vote/send] pkt2 -> 2 (part=2)
+[vote/send] from=6 -> to=2 url=http://localhost:1112/vote/share
+[vote/send] part=2 L=29 D=7 sumOnes=14 shares_len=29
+[vote/send] pedersenCom(hex)=0200000000000000...
+[vote/send] rangeProof(hex)=02000000000000000000000000000000...
+Server will be started at localhost:1116...
+Received message in dispatch: &{}
+Routing message of type: *priacy_compute.TriggerVRFMsg
+Resolving message: &{}
+Successfully triggered VRF evaluation.
+VRFValue: 0.434724
+VRFProof: 026f4a130adb3e50a953f83e5f254fb173a8537d0bd6643c36c0602cb53223cc247c2fef3160cbf8dd3fcd8fd2bbeae259012cfcf3eb45f26d8fa04a4a71b9df53c23fe96bbd917026bee13702f968b7ec
+VRFval: 0x1.bd284c2b6cf94p-02
+VRFChosen: false
+Bloom Params - M: 10, T: 3, EpsBF: 0.010000
+Bloom L: 29, D: 7
+Approved Indices: [6 4 1]
+Received message in dispatch: &{[6 4 1]}
+Routing message of type: *priacy_compute.LocalApproveVoteMsg
+Successfully triggered local approve vote.
+Resolving message: &{[6 4 1]}
+[AggSelect] self=6 IsAgg=false part=0 A=1 B=2
+Successfully triggered aggregation process.
+Server will be started at localhost:1116...
+Received message in dispatch: &{}
+Routing message of type: *priacy_compute.TriggerVRFMsg
+Resolving message: &{}
+VRFValue: 0.476550
+VRFProof: 0279ff2c40178b1cfe8abddcc112fc0453b8fbf7a45eefbe5634902bb9b16aac621616d37a26b83c12d4bd746b7ba66497082cbee6935d6c9c31c36ef1ad9b4b1fe68bb7e901a0a5d7b1f13d1e393f3914
+VRFval: 0x1.e7fcb1005e2c7p-02
+VRFChosen: false
+Bloom Params - M: 10, T: 3, EpsBF: 0.010000
+Bloom L: 29, D: 7
+Approved Indices: [9 1 4]
+Successfully triggered VRF evaluation.
+Received message in dispatch: &{[9 1 4]}
+Routing message of type: *priacy_compute.LocalApproveVoteMsg
+Successfully triggered local approve vote.
+Resolving message: &{[9 1 4]}
+[AggSelect] self=6 IsAgg=false part=0 A=1 B=2
+Successfully triggered aggregation process.
+Server will be started at localhost:1116...
+Received message in dispatch: &{}
+Routing message of type: *priacy_compute.TriggerVRFMsg
+Resolving message: &{}
+Successfully triggered VRF evaluation.
+VRFValue: 0.960281
+VRFProof: 02f5d4f7476cc104fbe1dc7d222230f830125aade7c6c96d62f783e26b5868ae78ec1421bd182b41cd8d1aeb88c9e0977004114e2c4319bcf6fd51ac35fafabbad65bd4f1642ed4181fa2db85901fd35ab
+VRFval: 0x1.eba9ee8ed9821p-01
+VRFChosen: false
+Bloom Params - M: 10, T: 3, EpsBF: 0.010000
+Bloom L: 29, D: 7
+Approved Indices: [3 1 9]
+Received message in dispatch: &{[3 1 9]}
+Routing message of type: *priacy_compute.LocalApproveVoteMsg
+Successfully triggered local approve vote.
+Resolving message: &{[3 1 9]}
+[AggSelect] self=6 IsAgg=false part=0 A=1 B=2
+Successfully triggered aggregation process.
+Server will be started at localhost:1116...
+Received message in dispatch: &{}
+Routing message of type: *priacy_compute.TriggerVRFMsg
+Successfully triggered VRF evaluation.
+Resolving message: &{}
+VRFValue: 0.627411
+VRFProof: 02a09e037dda6ffb80cf1fd96f01932e4bfd69bf770555109f530221bd32168d06e71220e320256edd352cbf03223675d90f078051937680715a0fc0449b86f33d7bc71c1e2a3b7e130a93c489995a5377
+VRFval: 0x1.413c06fbb4dffp-01
+VRFChosen: false
+Bloom Params - M: 10, T: 3, EpsBF: 0.010000
+Bloom L: 29, D: 7
+Approved Indices: [5 7 4]
+Received message in dispatch: &{[5 7 4]}
+Routing message of type: *priacy_compute.LocalApproveVoteMsg
+Successfully triggered local approve vote.
+[AggSelect] self=6 IsAgg=false part=0 A=1 B=2
+Resolving message: &{[5 7 4]}
+Cleaned and Validated Approved Indices: [5 7 4]
+Successfully triggered aggregation process.
+Pedersen Commitment: 0200000000000000 (len=33)
+Range Proof prefix: 02000000000000000000000000000000... (len=721)
+[vote/send] pkt1 -> 1 (part=1)
+[vote/send] from=6 -> to=1 url=http://localhost:1111/vote/share
+[vote/send] part=1 L=29 D=7 sumOnes=18 shares_len=29
+[vote/send] pedersenCom(hex)=0200000000000000...
+[vote/send] rangeProof(hex)=02000000000000000000000000000000...
+[vote/send] pkt2 -> 2 (part=2)
+[vote/send] from=6 -> to=2 url=http://localhost:1112/vote/share
+[vote/send] part=2 L=29 D=7 sumOnes=18 shares_len=29
+[vote/send] pedersenCom(hex)=0200000000000000...
+[vote/send] rangeProof(hex)=02000000000000000000000000000000...
+Server will be started at localhost:1116...
+Received message in dispatch: &{}
+Routing message of type: *priacy_compute.TriggerVRFMsg
+Resolving message: &{}
+Successfully triggered VRF evaluation.
+VRFValue: 0.062866
+VRFProof: 031017f6487eafe2b5aaf2a035b25844f08dfbe7878fd5c234032b94a770689ed109add4ee9f03771bb9ebc3ad079f0d5e056dab64a07b34a8bc12b37ad3dc699cdb6d99bc603a9a6c697f6dec6dd392e3
+VRFval: 0x1.017f6487eafe3p-04
+VRFChosen: true
+Bloom Params - M: 10, T: 3, EpsBF: 0.010000
+Bloom L: 29, D: 7
+Approved Indices: [2 0 8]
+Received message in dispatch: &{[2 0 8]}
+Routing message of type: *priacy_compute.LocalApproveVoteMsg
+Successfully triggered local approve vote.
+Resolving message: &{[2 0 8]}
+[AggSelect] self=6 IsAgg=false part=0 A=1 B=2
+Successfully triggered aggregation process.
+Server will be started at localhost:1116...
+Received message in dispatch: &{}
+Routing message of type: *priacy_compute.TriggerVRFMsg
+Resolving message: &{}
+Successfully triggered VRF evaluation.
+VRFValue: 0.872050
+VRFProof: 02df3eaa098e6b1a89899cccb962b8295b7566182e005310696476aa03f9c6f1331a4e193b12fccb6f42930befc61184ca0a0e4c277c0e784bd8ffc63b80151aa09125f60afdab5a90575e0fe85c235062
+VRFval: 0x1.be7d54131cd63p-01
+VRFChosen: false
+Bloom Params - M: 10, T: 3, EpsBF: 0.010000
+Bloom L: 29, D: 7
+Approved Indices: [2 0 8]
+Received message in dispatch: &{[2 0 8]}
+Routing message of type: *priacy_compute.LocalApproveVoteMsg
+Successfully triggered local approve vote.
+Resolving message: &{[2 0 8]}
+[AggSelect] self=6 IsAgg=false part=0 A=1 B=2
+Successfully triggered aggregation process.
+Server will be started at localhost:1116...
+Received message in dispatch: &{}
+Routing message of type: *priacy_compute.TriggerVRFMsg
+Resolving message: &{}
+Successfully triggered VRF evaluation.
+VRFValue: 0.940271
+VRFProof: 03f0b59ae4e92fd47555bd8805695d3ce89733ece156b6dd3fd811814a502065ff0035a33e296f0b68983f9e8a22a1f8ac031ce1bd1ecdfaf455ff9b966efecf5dd4519184b77eb413d60045391024b035
+VRFval: 0x1.e16b35c9d25fbp-01
+VRFChosen: false
+Bloom Params - M: 10, T: 3, EpsBF: 0.010000
+Bloom L: 29, D: 7
+Approved Indices: [5 3 1]
+[AggSelect] self=6 IsAgg=false part=0 A=1 B=2
+Successfully triggered aggregation process.
+Received message in dispatch: &{[5 3 1]}
+Routing message of type: *priacy_compute.LocalApproveVoteMsg
+Successfully triggered local approve vote.
+Resolving message: &{[5 3 1]}
+Cleaned and Validated Approved Indices: [5 3 1]
+Pedersen Commitment: 0200000000000000 (len=33)
+Range Proof prefix: 02000000000000000000000000000000... (len=721)
+[vote/send] pkt1 -> 1 (part=1)
+[vote/send] from=6 -> to=1 url=http://localhost:1111/vote/share
+[vote/send] part=1 L=29 D=7 sumOnes=16 shares_len=29
+[vote/send] pedersenCom(hex)=0200000000000000...
+[vote/send] rangeProof(hex)=02000000000000000000000000000000...
+[vote/send] pkt2 -> 2 (part=2)
+[vote/send] from=6 -> to=2 url=http://localhost:1112/vote/share
+[vote/send] part=2 L=29 D=7 sumOnes=16 shares_len=29
+[vote/send] pedersenCom(hex)=0200000000000000...
+[vote/send] rangeProof(hex)=02000000000000000000000000000000...
+Server will be started at localhost:1116...
+Received message in dispatch: &{}
+[dispatchMsg] Forwarding message: *priacy_compute.TriggerVRFMsg
+Routing message of type: *priacy_compute.TriggerVRFMsg
+[routeMsg] Message of type *priacy_compute.TriggerVRFMsg forwarded to MsgDelivery
+Resolving message: &{}
+VRFValue: 0.679037
+VRFProof: 03add55c2151c07c73b08e740db022db784c7afa86ca6f3fa8c3dffa162939f2e1d49b29aba16110098504a0b1fa288de0009bde0e41a147f2f7df9b1b9d0592c5216cb2fbbae4ea45e3c9807d74aac634
+VRFval: 0x1.5baab842a381p-01
+VRFChosen: false
+Bloom Params - M: 10, T: 3, EpsBF: 0.010000
+Bloom L: 29, D: 7
+Approved Indices: [4 7 6]
+Successfully triggered VRF evaluation.
+Received message in dispatch: &{[4 7 6]}
+[dispatchMsg] Forwarding message: *priacy_compute.LocalApproveVoteMsg
+Routing message of type: *priacy_compute.LocalApproveVoteMsg
+[routeMsg] Message of type *priacy_compute.LocalApproveVoteMsg forwarded to MsgDelivery
+Successfully triggered local approve vote.
+Resolving message: &{[4 7 6]}
+[AggSelect] self=6 IsAgg=false part=0 A=1 B=2
+Successfully triggered aggregation process.
+Server will be started at localhost:1116...
+Received message in dispatch: &{}
+[dispatchMsg] Forwarding message: *priacy_compute.TriggerVRFMsg
+Routing message of type: *priacy_compute.TriggerVRFMsg
+[routeMsg] Message of type *priacy_compute.TriggerVRFMsg forwarded to MsgDelivery
+Resolving message: &{}
+Successfully triggered VRF evaluation.
+[AggSelect] self=6 IsAgg=false part=0 A=1 B=2
+Successfully triggered aggregation process.
+VRFValue: 0.253736
+VRFProof: 0240f4d8a454a8ade6e0bb4e607aa262fda7cdeb5f5b70e131d480aff0a29dea1dcb2e752e379f1f56d55b58ba64d754c40e15cffda4e141f975428c3d09da65c4c3df8d08ad8f71f27c5b21314db3925b
+VRFval: 0x1.03d3629152a2bp-02
+VRFChosen: true
+Bloom Params - M: 10, T: 3, EpsBF: 0.010000
+Bloom L: 29, D: 7
+Approved Indices: [6 4 1]
+Received message in dispatch: &{[6 4 1]}
+[dispatchMsg] Forwarding message: *priacy_compute.LocalApproveVoteMsg
+Routing message of type: *priacy_compute.LocalApproveVoteMsg
+[routeMsg] Message of type *priacy_compute.LocalApproveVoteMsg forwarded to MsgDelivery
+Successfully triggered local approve vote.
+Resolving message: &{[6 4 1]}
+Cleaned and Validated Approved Indices: [6 4 1]
+Pedersen Commitment: 0200000000000000 (len=33)
+Range Proof prefix: 02000000000000000000000000000000... (len=721)
+[vote/send] pkt1 -> 1 (part=1)
+[vote/send] from=6 -> to=1 url=http://localhost:1111/vote/share
+[vote/send] part=1 L=29 D=7 sumOnes=17 shares_len=29
+[vote/send] pedersenCom(hex)=0200000000000000...
+[vote/send] rangeProof(hex)=02000000000000000000000000000000...
+[vote/send] pkt2 -> 2 (part=2)
+[vote/send] from=6 -> to=2 url=http://localhost:1112/vote/share
+[vote/send] part=2 L=29 D=7 sumOnes=17 shares_len=29
+[vote/send] pedersenCom(hex)=0200000000000000...
+[vote/send] rangeProof(hex)=02000000000000000000000000000000...
+Server will be started at localhost:1116...
+Received message in dispatch: &{}
+[dispatchMsg] Forwarding message: *priacy_compute.TriggerVRFMsg
+Routing message of type: *priacy_compute.TriggerVRFMsg
+[routeMsg] Message of type *priacy_compute.TriggerVRFMsg forwarded to MsgDelivery
+Resolving message: &{}
+Successfully triggered VRF evaluation.
+VRFValue: 0.707206
+VRFProof: 03b50b7badb49cb242271065bac5b07b79fecc6fb793062716da5c609b422c7dc815fb65b8dcea1f241d4b8fc26585dcbc0e6c2771840907fd085899192ec45c7fd921a62586c0262b23e10d3a5656f81c
+VRFval: 0x1.6a16f75b69396p-01
+VRFChosen: false
+Bloom Params - M: 10, T: 3, EpsBF: 0.010000
+Bloom L: 29, D: 7
+Approved Indices: [0 2 3]
+Received message in dispatch: &{[0 2 3]}
+[dispatchMsg] Forwarding message: *priacy_compute.LocalApproveVoteMsg
+Routing message of type: *priacy_compute.LocalApproveVoteMsg
+[routeMsg] Message of type *priacy_compute.LocalApproveVoteMsg forwarded to MsgDelivery
+Successfully triggered local approve vote.
+Resolving message: &{[0 2 3]}
+Server will be started at localhost:1116...
+Received message in dispatch: &{}
+[dispatchMsg] Forwarding message: *priacy_compute.TriggerVRFMsg
+Routing message of type: *priacy_compute.TriggerVRFMsg
+[routeMsg] Message of type *priacy_compute.TriggerVRFMsg forwarded to MsgDelivery
+Resolving message: &{}
+Successfully triggered VRF evaluation.
+Waiting for 1 minute before triggering aggregation...
+VRFValue: 0.195033
+VRFProof: 0231edb5f43ab93cc85332fa29bec4c6b795bfc978b5fe40b11be4905210b73c131fc3a9969d3a11fbef2771963d1c7e510eff38dca90b7a07fa5211d6357ffcd8b33b2995a76703edebaa9602e5e20e90
+VRFval: 0x1.8f6dafa1d5c9ep-03
+VRFChosen: true
+Bloom Params - M: 10, T: 3, EpsBF: 0.010000
+Bloom L: 29, D: 7
+Approved Indices: [3 6 1]
+Received message in dispatch: &{[3 6 1]}
+[dispatchMsg] Forwarding message: *priacy_compute.LocalApproveVoteMsg
+Routing message of type: *priacy_compute.LocalApproveVoteMsg
+[routeMsg] Message of type *priacy_compute.LocalApproveVoteMsg forwarded to MsgDelivery
+Successfully triggered local approve vote.
+Resolving message: &{[3 6 1]}
+[AggSelect] self=6 IsAgg=false part=0 A=1 B=2
+Test data added to RecvSharesPart1 and RecvSharesPart2
+Successfully triggered aggregation process.
+Server will be started at localhost:1116...
+Received message in dispatch: &{}
+[dispatchMsg] Forwarding message: *priacy_compute.TriggerVRFMsg
+Routing message of type: *priacy_compute.TriggerVRFMsg
+[routeMsg] Message of type *priacy_compute.TriggerVRFMsg forwarded to MsgDelivery
+Resolving message: &{}
+Successfully triggered VRF evaluation.
+Waiting for 1 minute before triggering aggregation...
+VRFValue: 0.448341
+VRFProof: 0372c68091c09cc1cab2e6daa5334b24683ab47b53c959feba3f7c2e05f04eacfaf0a39ba3e96c54a453d54ec553052fac0d1a87afd383c2b129d90342542b53ee7cf2002f0a964b3efaf6022f2c9b829f
+VRFval: 0x1.cb1a02470273p-02
+VRFChosen: false
+Bloom Params - M: 10, T: 3, EpsBF: 0.010000
+Bloom L: 29, D: 7
+Approved Indices: [8 0 7]
+Received message in dispatch: &{[8 0 7]}
+[dispatchMsg] Forwarding message: *priacy_compute.LocalApproveVoteMsg
+Routing message of type: *priacy_compute.LocalApproveVoteMsg
+[routeMsg] Message of type *priacy_compute.LocalApproveVoteMsg forwarded to MsgDelivery
+Successfully triggered local approve vote.
+Resolving message: &{[8 0 7]}
+[AggSelect] self=6 IsAgg=false part=0 A=1 B=2
+Successfully triggered aggregation process.
+Server will be started at localhost:1116...
+Received message in dispatch: &{}
+[dispatchMsg] Forwarding message: *priacy_compute.TriggerVRFMsg
+Routing message of type: *priacy_compute.TriggerVRFMsg
+[routeMsg] Message of type *priacy_compute.TriggerVRFMsg forwarded to MsgDelivery
+Resolving message: &{}
+VRFValue: 0.871896
+VRFProof: 03df348d6b2ce83e8af7fd2855c6df9baebe859cce0c34cc6f1008d2d910eb348c44b33ebff7435f9306f68cd08fc33b3f0bf8e7eed87423732638c48cb41ba2879a029f835867e30d916e39e396164d1f
+VRFval: 0x1.be691ad659d08p-01
+VRFChosen: false
+Bloom Params - M: 10, T: 3, EpsBF: 0.010000
+Bloom L: 29, D: 7
+Approved Indices: [7 5 8]
+Successfully triggered VRF evaluation.
+Waiting for 1 minute before triggering aggregation...
+Received message in dispatch: &{[7 5 8]}
+[dispatchMsg] Forwarding message: *priacy_compute.LocalApproveVoteMsg
+Routing message of type: *priacy_compute.LocalApproveVoteMsg
+[routeMsg] Message of type *priacy_compute.LocalApproveVoteMsg forwarded to MsgDelivery
+Successfully triggered local approve vote.
+Resolving message: &{[7 5 8]}
+[AggSelect] self=6 IsAgg=false part=0 A=1 B=2
+Cleaned and Validated Approved Indices: [7 5 8]
+Pedersen Commitment: 0200000000000000 (len=33)
+Range Proof prefix: 02000000000000000000000000000000... (len=721)
+[vote/send] pkt1 -> 1 (part=1)
+[vote/send] from=6 -> to=1 url=http://localhost:1111/vote/share
+[vote/send] part=1 L=29 D=7 sumOnes=16 shares_len=29
+[vote/send] pedersenCom(hex)=0200000000000000...
+[vote/send] rangeProof(hex)=02000000000000000000000000000000...
+[vote/send] pkt2 -> 2 (part=2)
+[vote/send] from=6 -> to=2 url=http://localhost:1112/vote/share
+[vote/send] part=2 L=29 D=7 sumOnes=16 shares_len=29
+[vote/send] pedersenCom(hex)=0200000000000000...
+[vote/send] rangeProof(hex)=02000000000000000000000000000000...
+Successfully triggered aggregation process.
