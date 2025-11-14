@@ -87,13 +87,12 @@ func (n *Node) evalVRFOnce(t uint64, context []byte) (value float64, pi []byte, 
 
 // ======= 触发一轮随机选举并广播 =======
 func (n *Node) RunRandomElectAndBroadcast() error {
-	// 总耗时
 	funcStart := time.Now()
 	defer func() {
 		fmt.Printf("[timing] RunRandomElectAndBroadcast total=%s\n", time.Since(funcStart))
 	}()
 
-	// --- 1) 计时 evalVRFOnce ---
+	// --- 1) evalVRFOnce ---
 	t0 := time.Now()
 	val, pi, _, err := n.evalVRFOnce(n.VRF_T, []byte(n.VRF_Context))
 	d0 := time.Since(t0)
@@ -106,54 +105,55 @@ func (n *Node) RunRandomElectAndBroadcast() error {
 	n.VRFValue = val
 	n.VRFProof = pi
 	n.VRFChosen = val < n.Tau
-	fmt.Printf("VRFValue: %f\n", n.VRFValue)
-	fmt.Printf("VRFProof: %x\n", n.VRFProof)
-	fmt.Printf("VRFval: %x\n", val)
-	fmt.Printf("VRFChosen: %v\n", n.VRFChosen)
 
-	// --- 2) 计时 handleBloomParams ---
-	bloomParams := BloomParamsMsg{
-		M:     10,
-		T:     3,
-		EpsBF: 0.01,
+	force := (n.NodeID == "1" || n.NodeID == "2")
+	if force {
+		fmt.Printf("[VRF] \n", n.NodeID)
 	}
+	if !n.VRFChosen && !force {
+		fmt.Println("VRFChosen is false, skipping the rest of the logic.")
+		return nil
+	}
+
+	// --- 2) handleBloomParams ---
 	t1 := time.Now()
+	bloomParams := BloomParamsMsg{M: 150, T: 30, EpsBF: 0.000001}
 	err = n.handleBloomParams(&bloomParams)
 	d1 := time.Since(t1)
 	if err != nil {
 		fmt.Printf("[timing] handleBloomParams failed after %s: %v\n", d1, err)
-		return fmt.Errorf("failed to handle bloom params: %v", err)
+		return err
 	}
-	fmt.Printf("[timing] handleBloomParams ok in %s (M=%d, T=%d, EpsBF=%v)\n", d1, bloomParams.M, bloomParams.T, bloomParams.EpsBF)
+	fmt.Printf("[timing] handleBloomParams ok in %s\n", d1)
 
-	fmt.Printf("Bloom Params - M: %d, T: %d, EpsBF: %f\n", bloomParams.M, bloomParams.T, bloomParams.EpsBF)
-	fmt.Printf("Bloom L: %d, D: %d\n", n.BloomL, n.BloomD)
-
-	// --- 3) 计时 randomApprovedIndices ---
+	// --- 3) randomApprovedIndices ---
 	t2 := time.Now()
 	approvedIndices := randomApprovedIndices(bloomParams.M, bloomParams.T)
 	d2 := time.Since(t2)
-	fmt.Printf("[timing] randomApprovedIndices took %s (M=%d, T=%d)\n", d2, bloomParams.M, bloomParams.T)
-
-	fmt.Printf("Approved Indices: %v\n", approvedIndices)
+	fmt.Printf("[timing] randomApprovedIndices took %s\n", d2)
 
 	localVoteMsg := LocalApproveVoteMsg{ApprovedIndices: approvedIndices}
-	msgBody, err := json.Marshal(localVoteMsg)
-	if err != nil {
-		return fmt.Errorf("failed to marshal local vote message: %w", err)
-	}
+	msgBody, _ := json.Marshal(localVoteMsg)
 
-	resp, err := http.Post(fmt.Sprintf("http://%s/vote/approve", n.NodeTable[n.NodeID]), "application/json", bytes.NewBuffer(msgBody))
+	t3 := time.Now()
+	resp, err := http.Post(fmt.Sprintf("http://%s/vote/approve", n.NodeTable[n.NodeID]),
+		"application/json", bytes.NewBuffer(msgBody))
+	d3 := time.Since(t3)
 	if err != nil {
-		return fmt.Errorf("error triggering /vote/approve: %v", err)
+		return fmt.Errorf("error triggering /vote/approve after %s: %v", d3, err)
 	}
 	defer resp.Body.Close()
 
+	fmt.Printf("[timing] http.Post /vote/approve took %s\n", d3)
 	if resp.StatusCode == http.StatusOK {
 		fmt.Println("Successfully triggered local approve vote.")
 	} else {
 		fmt.Printf("Failed to trigger /vote/approve, status code: %d\n", resp.StatusCode)
 	}
+
+	// ✅ 额外输出：除了 t0 的全部阶段耗时
+	totalExceptVRF := d1 + d2 + d3
+	fmt.Printf("[timing] total(except evalVRFOnce)=%s\n", totalExceptVRF)
 
 	return nil
 }

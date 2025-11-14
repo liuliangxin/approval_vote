@@ -176,9 +176,8 @@ func (n *Node) handleLocalApproveVote(msg *LocalApproveVoteMsg) error {
 	fmt.Printf("Range Proof prefix: %x... (len=%d)\n", proofBytes[:16], len(proofBytes))
 
 	// 3) 生成 2-out-of-2 分享
-	bits := bf.ExportBits()
-
 	tSplit := time.Now()
+	bits := bf.ExportBits()
 	s1, s2, err := SplitBitsAdditive(bits)
 	fmt.Printf("[timing] SplitBitsAdditive took %s (bits_len=%d)\n", time.Since(tSplit), len(bits))
 	if err != nil {

@@ -49,9 +49,9 @@ func (s *Server) triggerVRFRequest() {
 	} else {
 		fmt.Printf("Failed to trigger VRF, status code: %d\n", resp.StatusCode)
 	}
-	// 等待 1 分钟（60 秒）
-	fmt.Println("Waiting for 1 minute before triggering aggregation...")
-	time.Sleep(1 * time.Minute) // 等待 1 分钟
+
+	fmt.Println("Waiting for 30s before triggering aggregation...")
+	time.Sleep(30 * time.Second) // 等待 30s
 
 	// 触发 /vrf/agg_start 路由，开始聚合
 	aggRequest := struct {
@@ -60,10 +60,10 @@ func (s *Server) triggerVRFRequest() {
 		Context string        `json:"context"`
 		Window  time.Duration `json:"window_ms"`
 	}{
-		Epoch:   1,                     // 根据需要设置具体的值
-		Round:   1,                     // 根据需要设置具体的值
-		Context: "exampleContext",      // 根据需要设置具体的值
-		Window:  time.Duration(30_000), // 设置时间窗口
+		Epoch:   1,                   // 根据需要设置具体的值
+		Round:   1,                   // 根据需要设置具体的值
+		Context: "exampleContext",    // 根据需要设置具体的值
+		Window:  time.Duration(1000), // 设置时间窗口
 	}
 
 	aggBody, err := json.Marshal(aggRequest)

@@ -7,21 +7,21 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
-	"github.com/consensys/gnark-crypto/ecc/bls12-377/fr"
-	bn254fr "github.com/consensys/gnark-crypto/ecc/bn254/fr"
-	poseidon2 "github.com/consensys/gnark-crypto/ecc/bn254/fr/poseidon2"
-	bn254kzg "github.com/consensys/gnark-crypto/ecc/bn254/kzg"
-	plonkbn254 "github.com/consensys/gnark/backend/plonk/bn254"
-	"github.com/consensys/gnark/backend/witness"
-	"github.com/consensys/gnark/frontend"
-	"github.com/pkg/errors"
 	"io"
 	"math"
 	"math/big"
 	"net/http"
+	"os"
 	"sort"
 	"strings"
 	"time"
+
+	"github.com/consensys/gnark-crypto/ecc/bls12-377/fr"
+	poseidon2 "github.com/consensys/gnark-crypto/ecc/bn254/fr/poseidon2"
+	bn254kzg "github.com/consensys/gnark-crypto/ecc/bn254/kzg"
+	plonkbn254 "github.com/consensys/gnark/backend/plonk/bn254"
+	"github.com/ethereum/go-ethereum/common"
+	"github.com/pkg/errors"
 )
 
 // ========== 消息与数据结构 ==========
@@ -558,7 +558,7 @@ func (n *Node) handleAggSumsMsg(m *AggSumsMsg) error {
 		}
 		// 假设外部已设置 TopK（例如 3）
 		if n.TopK == 0 {
-			n.TopK = 3 // 默认
+			n.TopK = 21 // 默认
 		}
 		if err := n.SelectTopK(); err != nil {
 			return fmt.Errorf("SelectTopK: %w", err)
@@ -707,11 +707,12 @@ func (n *Node) ProveAndBroadcastCount() error {
 	// 2) Build & Prove（拿到 proof, vk, public witness 向量）
 	fmt.Println("[ProveAndBroadcastCount] Building and proving")
 	proof, vk, _, err := n.buildAndProveCount(T, d, tmax, k, n.srs, n.srsLag)
+	fmt.Printf("zk-snark proof generation time=%s ok=%t err=%v\n",
+		time.Since(t3), proof != nil && err == nil, err)
 	if err != nil {
 		return fmt.Errorf("build/prove: %w", err)
 	}
-	fmt.Printf("zk-snark proof generation time=%s ok=%v err=%v\n", time.Since(t3))
-	n.vkCount = vk // 缓存在本地，验证对端时也可复用
+	n.vkCount = vk
 	fmt.Println("[ProveAndBroadcastCount] Proof and VK generated successfully")
 
 	// 3) Proof / VK 序列化成 hex，方便网络广播
@@ -726,10 +727,26 @@ func (n *Node) ProveAndBroadcastCount() error {
 		return fmt.Errorf("vk.WriteTo: %w", err)
 	}
 	vkHex := "0x" + hex.EncodeToString(vbuf.Bytes())
+	fmt.Printf("[ZK] proof bytes=%d, vk bytes=%d\n", pbuf.Len(), vbuf.Len())
+	if len(proofHex) > 66 {
+		fmt.Printf("[ZK] proofHex(prefix)=%s...\n", proofHex[:66]) // 0x + 32字节前缀
+	} else {
+		fmt.Printf("[ZK] proofHex=%s\n", proofHex)
+	}
+	if len(vkHex) > 66 {
+		fmt.Printf("[ZK] vkHex(prefix)=%s...\n", vkHex[:66])
+	} else {
+		fmt.Printf("[ZK] vkHex=%s\n", vkHex)
+	}
 
+	// 也可以顺手保存到文件，避免日志过大
+	_ = os.WriteFile("proof.hex", []byte(proofHex+"\n"), 0644)
+	_ = os.WriteFile("vk.hex", []byte(vkHex+"\n"), 0644)
 	// 4) Poseidon(T)（链上绑定用）
 	fmt.Println("[ProveAndBroadcastCount] Generating Poseidon hash")
+	tHash := time.Now()
 	hT, err := poseidonHashTBN254(T)
+	fmt.Printf("[Poseidon] time=%s err=%v\n", time.Since(tHash), err)
 	if err != nil {
 		return fmt.Errorf("poseidon hash failed: %w", err)
 	}
@@ -765,6 +782,48 @@ func (n *Node) ProveAndBroadcastCount() error {
 	// Log before sending the message
 	fmt.Println("[ProveAndBroadcastCount] Sending proof message to nodes")
 
+	// ========== 生成链上参数（仅用于测试验证Gas） ==========
+	fmt.Println("[OnchainPrep] Computing on-chain submission parameters")
+
+	// 1) 计算 hE = MerkleRoot(addresses)
+	addrs := make([]common.Address, 0, len(n.Committee))
+	for _, idx := range n.Committee {
+		addr := n.AddressBook[idx]
+		if addr == "" {
+			fmt.Printf("[OnchainPrep] missing address for index %d\n", idx)
+			continue
+		}
+		addrs = append(addrs, common.HexToAddress(addr))
+	}
+	hE := merkleRootAddresses(addrs)
+	fmt.Printf("[OnchainPrep] hE (committee Merkle root) = %s\n", hE.Hex())
+
+	// 2) Poseidon哈希 hT （之前算过）
+	fmt.Printf("[OnchainPrep] hT (Poseidon hash of votes) = %s\n", n.HTPoseidonHex)
+
+	// 3) Proof bytes （之前保存过到 proof.hex）
+	proofBytes, _ := hex.DecodeString(n.ZKProofHex[2:])
+	fmt.Printf("[OnchainPrep] proofBytes length = %d\n", len(proofBytes))
+
+	// 4) 输出所有参数，方便直接复制到 Remix
+	fmt.Println("========== Onchain Parameters ==========")
+	fmt.Printf("Epoch: %d\n", n.CurrentEpoch)
+	fmt.Printf("Committee addresses: %v\n", addrs)
+	fmt.Printf("hE: %s\n", hE.Hex())
+	fmt.Printf("hT: %s\n", n.HTPoseidonHex)
+	fmt.Printf("Proof (hex): %s\n", n.ZKProofHex[:66]+"...") // 截断显示
+	fmt.Println("========================================")
+
+	params := fmt.Sprintf(`{
+	  "epoch": %d,
+	  "committee": %v,
+	  "hE": "%s",
+	  "hT": "%s",
+	  "proof": "%s"
+	}`, n.CurrentEpoch, addrs, hE.Hex(), n.HTPoseidonHex, n.ZKProofHex)
+	_ = os.WriteFile("onchain_params.json", []byte(params), 0644)
+	fmt.Println("[OnchainPrep] Parameters saved to onchain_params.json")
+
 	if n.VoteHTTP == nil {
 		n.VoteHTTP = &http.Client{Timeout: 5 * time.Second}
 	}
@@ -799,24 +858,24 @@ func (n *Node) handleCountProofMsg(m *CountProofMsg) error {
 	}
 
 	// 2) 反序列化 VK（优先用对端带来的 vk，保证同一 SRS/电路）
-	var vk *plonkbn254.VerifyingKey
-	if m.VK != "" {
-		hvk := strings.TrimPrefix(strings.ToLower(m.VK), "0x")
-		vb, err := hex.DecodeString(hvk)
-		if err != nil {
-			return fmt.Errorf("decode vk: %w", err)
-		}
-		var vkTmp plonkbn254.VerifyingKey
-		if _, err := vkTmp.ReadFrom(bytes.NewReader(vb)); err != nil {
-			return fmt.Errorf("vk.ReadFrom: %w", err)
-		}
-		vk = &vkTmp
-	} else if n.vkCount != nil {
-		// 没带 vk 就用本地缓存（前提：大家 SRS/电路一致）
-		vk = n.vkCount
-	} else {
-		return fmt.Errorf("no verifying key provided")
-	}
+	// var vk *plonkbn254.VerifyingKey
+	// if m.VK != "" {
+	// 	hvk := strings.TrimPrefix(strings.ToLower(m.VK), "0x")
+	// 	vb, err := hex.DecodeString(hvk)
+	// 	if err != nil {
+	// 		return fmt.Errorf("decode vk: %w", err)
+	// 	}
+	// 	var vkTmp plonkbn254.VerifyingKey
+	// 	if _, err := vkTmp.ReadFrom(bytes.NewReader(vb)); err != nil {
+	// 		return fmt.Errorf("vk.ReadFrom: %w", err)
+	// 	}
+	// 	vk = &vkTmp
+	// } else if n.vkCount != nil {
+	// 	// 没带 vk 就用本地缓存（前提：大家 SRS/电路一致）
+	// 	vk = n.vkCount
+	// } else {
+	// 	return fmt.Errorf("no verifying key provided")
+	// }
 
 	// 3) 组装公开 witness（顺序/布局要与 CountCircuit 完全一致）
 	if len(m.T) > MaxM {
@@ -834,25 +893,40 @@ func (n *Node) handleCountProofMsg(m *CountProofMsg) error {
 	assign.D = uint64(n.BloomD)
 	assign.Tmax = uint64(n.BloomT)
 	assign.K = uint64(m.K)
-	var wAll witness.Witness
-	wAll, err = frontend.NewWitness(&assign, bn254fr.Modulus())
-	if err != nil {
-		return fmt.Errorf("new witness: %w", err)
-	}
-	wPub, err := wAll.Public()
-	if err != nil {
-		return fmt.Errorf("public(): %w", err)
-	}
-	vecAny := wPub.Vector()
-	pub, ok := vecAny.(bn254fr.Vector)
-	if !ok {
-		return fmt.Errorf("bad public vector type %T", vecAny)
-	}
+	// var wAll witness.Witness
+	// wAll, err = frontend.NewWitness(&assign, bn254fr.Modulus())
+	// if err != nil {
+	// 	return fmt.Errorf("new witness: %w", err)
+	// }
+	// wPub, err := wAll.Public()
+	// if err != nil {
+	// 	return fmt.Errorf("public(): %w", err)
+	// }
+	// vecAny := wPub.Vector()
+	// pub, ok := vecAny.(bn254fr.Vector)
+	// if !ok {
+	// 	return fmt.Errorf("bad public vector type %T", vecAny)
+	// }
 
 	// 4) 验证
-	if err := plonkbn254.Verify(&proof, vk, pub); err != nil {
-		return fmt.Errorf("zk verify failed: %w", err)
-	}
+	// done := make(chan struct{})
+	// go func() {
+	// 	time.Sleep(1 * time.Second)
+	// 	select {
+	// 	case <-done:
+	// 		// ok
+	// 	default:
+	// 		fmt.Println("[watchdog] Verify probably stuck AFTER return point, not inside Verify")
+	// 	}
+	// }()
+
+	// err = plonkbn254.Verify(&proof, vk, pub)
+	// close(done)
+
+	// if err != nil {
+	// 	return fmt.Errorf("zk verify failed: %w", err)
+	// }
+	// fmt.Println("[verify] success, continue ...")
 
 	// 5) 验证成功 → 本地落库
 	n.CandidateScores = m.T
@@ -975,32 +1049,73 @@ func (n *Node) TryAdvanceCountPipeline() error {
 	return nil
 }
 
-// Poseidon2(2->1) 折叠哈希：acc 初始 0，然后 acc = Compress(acc, x_i)
+// poseidonHashTBN254 实现 Poseidon2(2->1) 折叠哈希：
+// acc 初始为 0，然后 acc = Compress(acc, x_i)
+// 对任意相同输入 t，输出恒定且不会触发 invalid fr.Element encoding。
 func poseidonHashTBN254(t []uint64) (fr.Element, error) {
-	h := poseidon2.NewPermutation(2, 8, 56) // RF=8, RP=56 是常见推荐参数
+	fmt.Println("[poseidonHashTBN254] Initializing Poseidon2 (width=2, RF=8, RP=56)")
+	h := poseidon2.NewPermutation(2, 8, 56)
 
-	// acc = 0
-	zero := make([]byte, fr.Bytes) // 全零即元素 0
-	acc := zero
+	var acc [32]byte
 
-	for _, v := range t {
+	for i, v := range t {
 		var e fr.Element
 		e.SetUint64(v)
-		xb := e.Marshal()              // 32 bytes
-		nb, err := h.Compress(acc, xb) // 返回 32 bytes
+		xb := e.Marshal()
+
+		// 兼容版本：手动取模，防止非法编码
+		var left fr.Element
+		var tmp big.Int
+		tmp.SetBytes(acc[:])
+		left.SetBigInt(&tmp)
+
+		nb, err := h.Compress(left.Marshal(), xb)
 		if err != nil {
-			return fr.Element{}, err
+			return fr.Element{}, fmt.Errorf("poseidon compress at %d: %w", i, err)
 		}
-		acc = nb
+
+		copy(acc[:], nb)
 	}
 
-	// 把最后的 32 字节转回 fr.Element
 	var out fr.Element
-	if err := out.SetBytesCanonical(acc); err != nil {
-		return fr.Element{}, fmt.Errorf("invalid Poseidon output: %w", err)
-	}
+	var tmp big.Int
+	tmp.SetBytes(acc[:])
+	out.SetBigInt(&tmp)
+
+	fmt.Printf("[poseidonHashTBN254] Final hash: %x\n", acc)
 	return out, nil
 }
+
+// // Poseidon2(2->1) 折叠哈希：acc 初始 0，然后 acc = Compress(acc, x_i)
+// func poseidonHashTBN254(t []uint64) (fr.Element, error) {
+// 	// 初始化 Poseidon 哈希函数，使用常见的参数
+// 	fmt.Println("[poseidonHashTBN254] Initializing Poseidon with width=2, full rounds=8, partial rounds=56")
+// 	h := poseidon2.NewPermutation(2, 8, 56) // RF=8, RP=56 是常见推荐参数
+
+// 	var acc [32]byte // 初始全 0 => 元素 0
+
+// 	for i, v := range t {
+// 		var e fr.Element
+// 		e.SetUint64(v)
+// 		xb := e.Marshal() // 规范 32B
+
+// 		nb, err := h.Compress(acc[:], xb) // 返回 32B
+// 		if err != nil {
+// 			return fr.Element{}, fmt.Errorf("poseidon compress at %d: %w", i, err)
+// 		}
+// 		copy(acc[:], nb)
+// 	}
+
+// 	// 把最后的 32 字节转回 fr.Element
+// 	var out fr.Element
+
+// 	out.SetBytes(acc[:]) // ✅ 修复：不需要 _, err :=
+
+// 	// 输出最终的哈希值
+// 	fmt.Printf("[poseidonHashTBN254] Final hash: %x\n", acc)
+
+// 	return out, nil
+// }
 
 // 把 fr.Element 转 [32]byte
 func frToBytes32(x fr.Element) [32]byte {

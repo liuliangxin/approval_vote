@@ -9,15 +9,15 @@ import (
 
 func main() {
 	// 路径
-	basePath := `D:\Dr_document\文档\重点研发-分片\分片实验搭建\src-4-200-4--\awesomeProject`
+	basePath := `/root/approve_vote/awesomeProject`
 	nodetablePath := filepath.Join(basePath, "nodetable1.csv")
 	filesksPath := filepath.Join(basePath, "filesks1.txt")
 
 	// 1. 生成节点地址表
 	nodeTable := make(map[string]string)
-	for i := 1; i <= 10; i++ {
+	for i := 1; i <= 500; i++ {
 		// 端口号递增：1111 + (i-1)
-		addr := fmt.Sprintf("localhost:%d", 1110+i)
+		addr := fmt.Sprintf("172.24.114.144:%d", 1110+i)
 		nodeTable[fmt.Sprintf("%d", i)] = addr
 	}
 
@@ -45,7 +45,7 @@ func main() {
 		}
 	}(f)
 
-	for i := 1; i <= 10; i++ {
+	for i := 1; i <= 500; i++ {
 		_, err := f.WriteString(fmt.Sprintf("%d\n", i))
 		if err != nil {
 			panic(err)
