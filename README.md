@@ -1,7 +1,3 @@
-Certainly! Here's the complete English version of your README with the continuation of the instructions:
-
----
-
 # README
 
 ## 1. Environment Setup
@@ -65,8 +61,7 @@ In the project directory `approve_vote/awesomeProject/`, run the following comma
 bash a.sh
 ```
 
-This will start the node and open the required ports for the application to run. Make sure to check the logs to verify that everything is running correctly.
-
 ---
 
 This completes the README with all necessary instructions for setting up the environment, fetching dependencies, starting the node on different systems, and troubleshooting the logs.
+
