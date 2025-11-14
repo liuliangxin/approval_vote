@@ -14,7 +14,7 @@ func TestCalcBloomParams(t *testing.T) {
 		t.Fatalf("l should be >= t (20), got %d", l)
 	}
 
-	// t > m 时应被钳制为 t=m
+
 	l2, d2 := CalcBloomParams(10, 20, 0.01) // t>m
 	if l2 <= 0 || d2 <= 0 {
 		t.Fatalf("CalcBloomParams (clamped) returned non-positive: l=%d d=%d", l2, d2)
@@ -33,7 +33,7 @@ func TestNewBloomAndExport(t *testing.T) {
 	if len(clone) != len(b.Bits) {
 		t.Fatalf("ExportBits length mismatch")
 	}
-	// 修改导出切片不应影响内部
+
 	if len(clone) > 0 {
 		clone[0] = 1
 	}
@@ -51,12 +51,12 @@ func TestAddAndCheck_NoFalseNegative(t *testing.T) {
 
 	b := NewBloom(L, D)
 
-	// 插入 N 个唯一索引
+
 	for i := 0; i < N; i++ {
 		b.AddIndex(uint64(i + 1))
 	}
 
-	// 已插入的元素不应出现假阴性
+
 	for i := 0; i < N; i++ {
 		if !b.CheckIndex(uint64(i + 1)) {
 			t.Fatalf("False negative on inserted index %d", i+1)
@@ -74,15 +74,15 @@ func TestFalsePositiveRateApprox(t *testing.T) {
 
 	b := NewBloom(L, D)
 
-	// 插入若干元素
+
 	for i := 0; i < Inserted; i++ {
 		b.AddIndex(uint64(i + 1))
 	}
 
-	// 观测假阳性率（用不相交的索引空间避免碰撞为真阳性）
+
 	fp := 0
 	for i := 0; i < Trials; i++ {
-		x := uint64(1_000_000 + i) // 确保与已插入的不重叠
+		x := uint64(1_000_000 + i) // 
 		if b.CheckIndex(x) {
 			fp++
 		}
@@ -92,7 +92,7 @@ func TestFalsePositiveRateApprox(t *testing.T) {
 	expected := b.FalsePositiveRate()
 
 	diff := math.Abs(observed - expected)
-	// 允许的容差：max(0.01, 5 * sigma)
+
 	sigma := math.Sqrt(expected * (1 - expected) / Trials)
 	allow := math.Max(0.01, 5*sigma)
 
@@ -113,7 +113,7 @@ func TestOnesCountMonotonic(t *testing.T) {
 		t.Fatalf("initial OnesCount should be 0, got %d", before)
 	}
 
-	// 逐步加入，位数应非减（考虑到可能命中同一位，不做严格增长断言）
+
 	for i := 0; i < 200; i++ {
 		b.AddIndex(uint64(i + 1))
 		after := b.OnesCount()
