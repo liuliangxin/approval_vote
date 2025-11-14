@@ -17,7 +17,7 @@ type Server struct {
 type TriggerVRFMsg struct{}
 
 func NewServer(nodeID string) *Server {
-	// 你的原逻辑是从 NodeTable 拿 URL，这里直接用 NodeTable[nodeID]
+
 	n := NewNode(nodeID)
 	url := n.NodeTable[nodeID]
 	s := &Server{url: url, node: n}
@@ -35,9 +35,8 @@ func (s *Server) Start() {
 	}
 }
 
-// triggerVRFRequest 启动时模拟 HTTP 请求触发 /vrf/eval
 func (s *Server) triggerVRFRequest() {
-	// 触发 /vrf/eval 路由
+
 	resp, err := http.Post(fmt.Sprintf("http://%s/vrf/eval", s.url), "application/json", nil)
 	if err != nil {
 		fmt.Printf("Error triggering VRF: %v\n", err)
@@ -51,19 +50,18 @@ func (s *Server) triggerVRFRequest() {
 	}
 
 	fmt.Println("Waiting for 30s before triggering aggregation...")
-	time.Sleep(30 * time.Second) // 等待 30s
+	time.Sleep(30 * time.Second) //
 
-	// 触发 /vrf/agg_start 路由，开始聚合
 	aggRequest := struct {
 		Epoch   uint64        `json:"epoch"`
 		Round   uint64        `json:"round"`
 		Context string        `json:"context"`
 		Window  time.Duration `json:"window_ms"`
 	}{
-		Epoch:   1,                   // 根据需要设置具体的值
-		Round:   1,                   // 根据需要设置具体的值
-		Context: "exampleContext",    // 根据需要设置具体的值
-		Window:  time.Duration(1000), // 设置时间窗口
+		Epoch:   1,                   //
+		Round:   1,                   //
+		Context: "exampleContext",    //
+		Window:  time.Duration(1000), //
 	}
 
 	aggBody, err := json.Marshal(aggRequest)
@@ -94,7 +92,7 @@ func (s *Server) setRoute() {
 
 	http.HandleFunc("/vrf/result", s.recvVRFResult)
 
-	// 启动VRF聚合轮次
+	//
 	http.HandleFunc("/vrf/agg_start", func(w http.ResponseWriter, r *http.Request) {
 		var request struct {
 			Epoch   uint64        `json:"epoch"`
@@ -110,7 +108,7 @@ func (s *Server) setRoute() {
 		w.Write([]byte("ok"))
 	})
 
-	// 追加在 setRoute() 里 —— 二次 vrf 聚合者
+	//
 	http.HandleFunc("/vrf/agg_proposal", func(w http.ResponseWriter, r *http.Request) {
 		var m AggVRFMsg
 		if err := json.NewDecoder(r.Body).Decode(&m); err != nil {
@@ -121,10 +119,10 @@ func (s *Server) setRoute() {
 		_, _ = w.Write([]byte("ok"))
 	})
 
-	// 查询状态
+	//
 	http.HandleFunc("/status", s.status)
 
-	// 追加在 setRoute() 里 —— 投票相关
+	//
 	http.HandleFunc("/params/bloom", func(w http.ResponseWriter, r *http.Request) {
 		var m BloomParamsMsg
 		if err := json.NewDecoder(r.Body).Decode(&m); err != nil {
@@ -165,7 +163,7 @@ func (s *Server) setRoute() {
 		_, _ = w.Write([]byte("ok"))
 	})
 
-	// —— 聚合阶段：交换 Σ^(part) 向量 ——
+	//
 	http.HandleFunc("/vote/aggregate/sums", func(w http.ResponseWriter, r *http.Request) {
 		var m AggSumsMsg
 		if err := json.NewDecoder(r.Body).Decode(&m); err != nil {
@@ -176,7 +174,7 @@ func (s *Server) setRoute() {
 		_, _ = w.Write([]byte("ok"))
 	})
 
-	// —— 最终结果广播（含 zk 证明）——
+	//
 	http.HandleFunc("/vote/result", func(w http.ResponseWriter, r *http.Request) {
 		var m CountProofMsg
 		if err := json.NewDecoder(r.Body).Decode(&m); err != nil {
@@ -193,10 +191,10 @@ func (s *Server) setRoute() {
 			http.Error(w, "bad json: "+err.Error(), 400)
 			return
 		}
-		// 先缓存
+		//
 		s.node.cachedCfg = &cfg
 
-		// 你可以选择“立刻初始化”，也可以“懒初始化”
+		//
 		if err := s.node.InitWeb3(cfg); err != nil {
 			http.Error(w, "init web3 failed: "+err.Error(), 500)
 			return
@@ -205,7 +203,7 @@ func (s *Server) setRoute() {
 		w.Write([]byte("ok"))
 	})
 
-	// ===== On-chain: 提交结果（计算 Merkle + 调合约）=====(未用)
+	//
 	http.HandleFunc("/onchain/submit", func(w http.ResponseWriter, r *http.Request) {
 		var req OnchainSubmitReq
 		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
@@ -223,8 +221,8 @@ func (s *Server) setRoute() {
 		_ = json.NewEncoder(w).Encode(map[string]string{"tx_hash": txh})
 	})
 
-	// 1) 配置地址簿：索引 -> 地址
-	// POST /onchain/addressbook  {"0":"0x...","1":"0x..."}(未用)
+	// 1)
+	// POST /onchain/addressbook  {"0":"0x...","1":"0x..."}
 	http.HandleFunc("/onchain/addressbook", func(w http.ResponseWriter, r *http.Request) {
 		var m map[string]string
 		if err := json.NewDecoder(r.Body).Decode(&m); err != nil {
@@ -238,8 +236,8 @@ func (s *Server) setRoute() {
 		w.Write([]byte("ok"))
 	})
 
-	// 2) 开关自动上链
-	// POST /onchain/auto/enable  {"enable":true}(未用)
+	// 2)
+	// POST /onchain/auto/enable  {"enable":true}
 	http.HandleFunc("/onchain/auto/enable", func(w http.ResponseWriter, r *http.Request) {
 		var body struct {
 			Enable bool `json:"enable"`
@@ -249,13 +247,13 @@ func (s *Server) setRoute() {
 			return
 		}
 		s.node.OnchainAuto = body.Enable
-		// 手动触发一次（如果条件满足会直接提交）
+
 		_ = s.node.AutoSubmitIfReady()
 		w.Write([]byte("ok"))
 	})
 
-	// 3) 设置当前 epoch
-	// POST /onchain/epoch {"epoch":123}(未用)
+	// 3)
+	// POST /onchain/epoch {"epoch":123}
 	http.HandleFunc("/onchain/epoch", func(w http.ResponseWriter, r *http.Request) {
 		var body struct {
 			Epoch uint64 `json:"epoch"`
@@ -268,8 +266,8 @@ func (s *Server) setRoute() {
 		w.Write([]byte("ok"))
 	})
 
-	// 4) 立即尝试自动提交一次（手动触发）
-	// POST /onchain/autosubmit {}(未用)
+	// 4)
+	// POST /onchain/autosubmit {}
 	http.HandleFunc("/onchain/autosubmit", func(w http.ResponseWriter, r *http.Request) {
 		if err := s.node.AutoSubmitIfReady(); err != nil {
 			http.Error(w, "autosubmit failed: "+err.Error(), 500)
@@ -278,7 +276,7 @@ func (s *Server) setRoute() {
 		w.Write([]byte("ok"))
 	})
 
-	// POST /onchain/addressbook/load  {"path":"addresses.csv"}(未用)
+	// POST /onchain/addressbook/load  {"path":"addresses.csv"}
 	http.HandleFunc("/onchain/addressbook/load", func(w http.ResponseWriter, r *http.Request) {
 		var body struct {
 			Path string `json:"path"`
@@ -331,7 +329,6 @@ func (s *Server) status(w http.ResponseWriter, r *http.Request) {
 		Context  string  `json:"context"`
 		CandSize int     `json:"candidate_size"`
 
-		// —— 新增：onchain 状态 ——
 		OnchainAuto       bool   `json:"onchain_auto"`
 		OnchainSubmitted  bool   `json:"onchain_submitted"`
 		OnchainLastTxHash string `json:"onchain_last_tx"`

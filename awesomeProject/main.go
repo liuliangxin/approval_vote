@@ -16,7 +16,6 @@ func main() {
 	}
 	nodeID := os.Args[1]
 
-	// 启动服务
 	server := priacy_compute.NewServer(nodeID)
 	server.Start()
 }

@@ -7,20 +7,20 @@ import (
 	"encoding/hex"
 	"errors"
 	"fmt"
+	"math/big"
+	"os"
+	"strconv"
+	"strings"
+	"time"
+
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/ethclient"
 	"golang.org/x/crypto/sha3"
-	"math/big"
-	"os"
-	"strconv"
-	"strings"
-	"time"
 )
 
-// ---- 合约 ABI（只需要 submitResult）----
 const ElectionOnChainABI = `[
   {"inputs":[
     {"internalType":"uint256","name":"epoch","type":"uint256"},
@@ -33,7 +33,6 @@ const ElectionOnChainABI = `[
   ],
   "name":"submitResult","outputs":[],"stateMutability":"nonpayable","type":"function"}]`
 
-// ---- Web3 句柄 ----
 type Web3Handle struct {
 	Client       *ethclient.Client
 	ContractAddr common.Address
@@ -46,8 +45,8 @@ type Web3Handle struct {
 
 type OnchainConfig struct {
 	RPCURL        string `json:"rpc_url"`
-	ContractAddr  string `json:"contract_address"` // 0x...
-	PrivateKeyHex string `json:"private_key_hex"`  // 0x...
+	ContractAddr  string `json:"contract_address"`
+	PrivateKeyHex string `json:"private_key_hex"`
 	ChainID       int64  `json:"chain_id"`
 }
 
@@ -86,18 +85,16 @@ func (n *Node) InitWeb3(cfg OnchainConfig) error {
 	return nil
 }
 
-// ---- 提交请求体 ----
 type OnchainSubmitReq struct {
 	Epoch       uint64   `json:"epoch"`
-	Committee   []string `json:"committee"`              // 地址数组（0x...）
-	ProofHex    string   `json:"proof_hex"`              // 0x...
-	Counts      []uint64 `json:"t_counts,omitempty"`     // 可选：计数向量 T（m 个）
-	HTHex       string   `json:"ht_hex,omitempty"`       // 可选：直接给 hT（0x...）
-	CommitAHint string   `json:"commit_a_hex,omitempty"` // 可选
+	Committee   []string `json:"committee"`
+	ProofHex    string   `json:"proof_hex"`
+	Counts      []uint64 `json:"t_counts,omitempty"`
+	HTHex       string   `json:"ht_hex,omitempty"`
+	CommitAHint string   `json:"commit_a_hex,omitempty"`
 	CommitBHint string   `json:"commit_b_hex,omitempty"`
 }
 
-// ---- /onchain/submit 的内部实现 ----
 func (n *Node) OnchainSubmit(ctx context.Context, req *OnchainSubmitReq) (txHash string, err error) {
 	if n.web3 == nil {
 		return "", errors.New("web3 not initialized; call /onchain/config first")
@@ -105,14 +102,13 @@ func (n *Node) OnchainSubmit(ctx context.Context, req *OnchainSubmitReq) (txHash
 	if err := n.ensureWeb3(); err != nil {
 		return "", err
 	}
-	// 1) 解析 committee addresses 并计算 hE（默克尔根）
+
 	addrs := make([]common.Address, 0, len(req.Committee))
 	for _, s := range req.Committee {
 		addrs = append(addrs, common.HexToAddress(s))
 	}
 	hE := merkleRootAddresses(addrs)
 
-	// 2) 计算/解析 hT
 	var hT common.Hash
 	if len(req.HTHex) > 0 {
 		hT = common.HexToHash(req.HTHex)
@@ -122,7 +118,6 @@ func (n *Node) OnchainSubmit(ctx context.Context, req *OnchainSubmitReq) (txHash
 		return "", errors.New("must provide either t_counts or ht_hex")
 	}
 
-	// 3) 解析 proof
 	if !strings.HasPrefix(req.ProofHex, "0x") {
 		req.ProofHex = "0x" + req.ProofHex
 	}
@@ -131,19 +126,15 @@ func (n *Node) OnchainSubmit(ctx context.Context, req *OnchainSubmitReq) (txHash
 		return "", err
 	}
 
-	// 4) 解析可选承诺绑定
 	commitA := strToBytes32(req.CommitAHint)
 	commitB := strToBytes32(req.CommitBHint)
 
-	// 5) 发起交易 submitResult(...)
 	opts, err := bind.NewKeyedTransactorWithChainID(n.web3.Priv, n.web3.ChainID)
 	if err != nil {
 		return "", err
 	}
 	opts.From = n.web3.From
 	opts.Context = ctx
-	// 也可设置 GasPrice/GasTip/GasLimit（留空用节点估算）
-	// opts.GasLimit = 500_000
 
 	tx, err := n.web3.Contract.Transact(
 		opts,
@@ -163,10 +154,9 @@ func (n *Node) OnchainSubmit(ctx context.Context, req *OnchainSubmitReq) (txHash
 	return tx.Hash().Hex(), nil
 }
 
-// ---- Merkle：地址 ----
 func merkleRootAddresses(addrs []common.Address) common.Hash {
 	if len(addrs) == 0 {
-		return common.Hash{} // 0x0
+		return common.Hash{}
 	}
 	leaves := make([]common.Hash, len(addrs))
 	for i, a := range addrs {
@@ -179,14 +169,13 @@ func merkleRootAddresses(addrs []common.Address) common.Hash {
 	return merkleRoot(leaves)
 }
 
-// ---- Merkle：uint256 计数 ----
 func merkleRootUint256s(vals []uint64) common.Hash {
 	if len(vals) == 0 {
 		return common.Hash{}
 	}
 	leaves := make([]common.Hash, len(vals))
 	for i, v := range vals {
-		// uint256 大端 32 字节
+
 		var buf [32]byte
 		b := new(big.Int).SetUint64(v).Bytes()
 		copy(buf[32-len(b):], b)
@@ -200,7 +189,6 @@ func merkleRootUint256s(vals []uint64) common.Hash {
 	return merkleRoot(leaves)
 }
 
-// ---- Merkle 归约：奇数复制最后一个 ----
 func merkleRoot(leaves []common.Hash) common.Hash {
 	level := leaves
 	for len(level) > 1 {
@@ -225,7 +213,6 @@ func merkleRoot(leaves []common.Hash) common.Hash {
 	return level[0]
 }
 
-// ---- 小工具：把 0x.. 字符串变 bytes32（不足补零）----
 func strToBytes32(hexStr string) [32]byte {
 	var out [32]byte
 	if hexStr == "" {
@@ -245,7 +232,6 @@ func strToBytes32(hexStr string) [32]byte {
 	return out
 }
 
-// 设置 AddressBook（JSON: {"0":"0x...","1":"0x..."}）
 func (n *Node) SetAddressBookFromMap(m map[string]string) error {
 	if n.AddressBook == nil {
 		n.AddressBook = make(map[int]string)
@@ -260,7 +246,6 @@ func (n *Node) SetAddressBookFromMap(m map[string]string) error {
 	return nil
 }
 
-// 将委员会索引映射为地址数组
 func (n *Node) committeeAddrsFromIndices() ([]string, error) {
 	if len(n.Committee) == 0 {
 		return nil, errors.New("committee empty")
@@ -276,16 +261,14 @@ func (n *Node) committeeAddrsFromIndices() ([]string, error) {
 	return out, nil
 }
 
-// 触发自动上链（仅当：开启自动 & 本节点是 M_A & web3 已初始化 & 还未提交）
 func (n *Node) AutoSubmitIfReady() error {
 	if !n.OnchainAuto || n.web3 == nil || n.OnchainSubmitted {
 		return nil
 	}
 	if !n.IsAggregator || n.AggregatorPart != 1 {
 		return nil
-	} // 约定 M_A 提交
+	}
 
-	// 需要具备：Committee（索引）、CandidateScores（T）、ZKProofHex
 	if len(n.Committee) == 0 || len(n.CandidateScores) == 0 || len(n.ZKProofHex) == 0 {
 		return nil
 	}
@@ -298,8 +281,8 @@ func (n *Node) AutoSubmitIfReady() error {
 		Epoch:       n.CurrentEpoch,
 		Committee:   addrsStr,
 		ProofHex:    n.ZKProofHex,
-		Counts:      n.CandidateScores, // 也可改传 hTHex
-		CommitAHint: "",                // 可绑定你的聚合承诺
+		Counts:      n.CandidateScores,
+		CommitAHint: "",
 		CommitBHint: "",
 	}
 
@@ -311,14 +294,12 @@ func (n *Node) AutoSubmitIfReady() error {
 	}
 
 	n.OnchainSubmitted = true
-	_ = txh // 你也可记录到日志或状态
+	_ = txh
 	return nil
 }
 
 func fmtInt(x int) string { return new(big.Int).SetInt64(int64(x)).String() }
 
-// LoadAddressBookCSV 读取 CSV：两列：index,address
-// 支持带表头：index,address；会忽略空行与注释行（以 # 开头）
 func (n *Node) LoadAddressBookCSV(path string) error {
 	f, err := os.Open(path)
 	if err != nil {
@@ -336,7 +317,6 @@ func (n *Node) LoadAddressBookCSV(path string) error {
 		return errors.New("addresses.csv empty")
 	}
 
-	// 如果第一行是表头，跳过
 	start := 0
 	if len(records[0]) >= 2 &&
 		strings.EqualFold(strings.TrimSpace(records[0][0]), "index") &&
@@ -349,7 +329,7 @@ func (n *Node) LoadAddressBookCSV(path string) error {
 	}
 	for i := start; i < len(records); i++ {
 		row := records[i]
-		// 允许行注释或空行
+
 		if len(row) == 0 || (len(row) == 1 && strings.TrimSpace(row[0]) == "") {
 			continue
 		}
@@ -368,7 +348,7 @@ func (n *Node) LoadAddressBookCSV(path string) error {
 		if !common.IsHexAddress(addr) {
 			return fmt.Errorf("bad eth address '%s' at line %d", addr, i+1)
 		}
-		n.AddressBook[idx] = common.HexToAddress(addr).Hex() // 规范化大小写
+		n.AddressBook[idx] = common.HexToAddress(addr).Hex()
 	}
 	n.AddressBookPath = path
 	return nil

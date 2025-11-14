@@ -29,21 +29,20 @@ func NewPedersenCommitment(v *big.Int) (*PedersenCommitment, error) {
 	g := curve.NewGeneratorPoint().Generator()
 	h := curve.NewGeneratorPoint().Hash([]byte("bp:h"))
 
-	// 标量化 value
 	scV := curve.NewScalar()
 	scV, err := scV.SetBigInt(v)
 	if err != nil {
 		return nil, err
 	}
 
-	// 随机盲因子 r
+	//
 	r := curve.NewScalar().Random(rand.Reader)
 
-	// Com = g^v * h^r
+	//
 	com := curve.NewIdentityPoint()
 	com.SumOfProducts([]curves.Point{g, h}, []curves.Scalar{scV, r})
 
-	// === v1.8.0 正确的序列化方式 ===
+	//
 	commitBytes := com.ToAffineCompressed() // []byte
 	blindBytes := r.Bytes()                 // []byte
 	return &PedersenCommitment{
@@ -54,13 +53,12 @@ func NewPedersenCommitment(v *big.Int) (*PedersenCommitment, error) {
 	}, nil
 }
 
-// PedersenCommit: 按给定 value 与 rand 生成承诺
 func PedersenCommit(value *big.Int, rand *big.Int) (*PedersenCommitment, error) {
 	if value == nil || value.Sign() < 0 {
 		return nil, errors.New("value must be non-negative")
 	}
 	if rand == nil {
-		// 若未传入盲因子，自动随机生成
+		//
 		return NewPedersenCommitment(value)
 	}
 
@@ -68,7 +66,7 @@ func PedersenCommit(value *big.Int, rand *big.Int) (*PedersenCommitment, error) 
 	g := curve.NewGeneratorPoint().Generator()
 	h := curve.NewGeneratorPoint().Hash([]byte("bp:h"))
 
-	// 标量化 value 与 rand
+	//
 	scV := curve.NewScalar()
 	scV, err := scV.SetBigInt(value)
 	if err != nil {
@@ -80,11 +78,11 @@ func PedersenCommit(value *big.Int, rand *big.Int) (*PedersenCommitment, error) 
 		return nil, err
 	}
 
-	// Com = g^v * h^r
+	//
 	com := curve.NewIdentityPoint()
 	com.SumOfProducts([]curves.Point{g, h}, []curves.Scalar{scV, scR})
 
-	// === v1.8.0 正确的序列化方式 ===
+	//
 	commitBytes := com.ToAffineCompressed() // []byte
 	blindBytes := scR.Bytes()               // []byte
 	return &PedersenCommitment{
@@ -95,7 +93,6 @@ func PedersenCommit(value *big.Int, rand *big.Int) (*PedersenCommitment, error) 
 	}, nil
 }
 
-// PedersenVerify: 重计算 g^value * h^rand 并与 Commit 比较
 func PedersenVerify(c *PedersenCommitment) bool {
 	if c == nil || c.Value == nil || c.Rand == nil || len(c.Commit) == 0 {
 		return false
@@ -105,12 +102,11 @@ func PedersenVerify(c *PedersenCommitment) bool {
 	g := curve.NewGeneratorPoint().Generator()
 	h := curve.NewGeneratorPoint().Hash([]byte("bp:h"))
 
-	// 反序列化承诺点（压缩形式）
 	got, err := curve.NewIdentityPoint().FromAffineCompressed(c.Commit)
 	if err != nil {
 		return false
 	}
-	// 重算 Com'
+
 	scV := curve.NewScalar()
 	if err, _ := scV.SetBigInt(c.Value); err != nil {
 		return false
@@ -122,7 +118,6 @@ func PedersenVerify(c *PedersenCommitment) bool {
 	expect := curve.NewIdentityPoint()
 	expect.SumOfProducts([]curves.Point{g, h}, []curves.Scalar{scV, scR})
 
-	// 比较点是否相等
 	return expect.Equal(got)
 }
 

@@ -16,7 +16,6 @@ import (
 	bn254kzg "github.com/consensys/gnark-crypto/ecc/bn254/kzg"
 )
 
-// 与电路公开输入一致（若电路里有 gnark:",public" 的字段，这里都要有）
 type CountPublic struct {
 	T    [MaxM]frontend.Variable `gnark:",public"`
 	M    frontend.Variable       `gnark:",public"`
@@ -25,7 +24,6 @@ type CountPublic struct {
 	K    frontend.Variable       `gnark:",public"`
 }
 
-// 上取 2 次幂
 func nextPow2(n int) int {
 	if n <= 1 {
 		return 1
@@ -41,7 +39,6 @@ func (n *Node) buildAndProveCount(
 	// Log the entry to the function
 	fmt.Println("[buildAndProveCount] Called")
 
-	// 1) 用 R1CS builder 编译（域传模数 *big.Int）
 	var circuit CountCircuit
 	fmt.Println("[buildAndProveCount] Compiling circuit with R1CS builder")
 	ccs, err := frontend.Compile(bn254fr.Modulus(), scs.NewBuilder, &circuit)
@@ -50,21 +47,17 @@ func (n *Node) buildAndProveCount(
 	}
 	fmt.Println("[buildAndProveCount] Circuit compiled successfully")
 
-	// 2) 将接口断言为 *cs.SparseR1CS（注意是顶层 cs 包，不是 r1cs 子包）
 	spr, ok := ccs.(*cs.SparseR1CS)
 	if !ok {
 		return nil, nil, nil, fmt.Errorf("expected *cs.SparseR1CS, got %T", ccs)
 	}
 
-	// ========= 2.5) 就地确保 SRS 尺寸足够 =========
-	// 估算 FFT 域基数：约束数 + 公共输入，上取 2 次幂
 	nbConstraints := spr.GetNbConstraints()
 	nbPublic := len(spr.Public)
 	cardinality := nextPow2(nbConstraints + nbPublic)
-	needPk := cardinality + 3 // gnark plonk 里对 canonical SRS 的要求
-	needLag := cardinality    // lagrange 版刚好 = cardinality
+	needPk := cardinality + 3
+	needLag := cardinality
 
-	// canonical SRS: 不足则重建
 	if srs == nil || len(srs.Pk.G1) < needPk {
 		fmt.Printf("[buildAndProveCount] (re)build canonical SRS: needPk=%d (was %d)\n",
 			needPk, func() int {
@@ -82,7 +75,6 @@ func (n *Node) buildAndProveCount(
 		srs = tmp
 	}
 
-	// lagrange SRS: 不等于 needLag 就重建
 	if srsLag.Pk.G1 == nil || len(srsLag.Pk.G1) != needLag {
 		fmt.Printf("[buildAndProveCount] (re)build lagrange SRS: needLag=%d (was %d)\n",
 			needLag, len(srsLag.Pk.G1))
@@ -95,9 +87,7 @@ func (n *Node) buildAndProveCount(
 		tmpLag, _ := bn254kzg.NewSRS(uint64(needLag), tau)
 		srsLag = *tmpLag
 	}
-	// ========= /SRS 就地保证 =========
 
-	// 3) 准备公开 assignment（必须与电路公开字段一一对应）
 	fmt.Println("[buildAndProveCount] Preparing public assignment")
 	if len(T) > MaxM {
 		return nil, nil, nil, fmt.Errorf("T len=%d > MaxM=%d", len(T), MaxM)
@@ -115,9 +105,7 @@ func (n *Node) buildAndProveCount(
 	assign.Tmax = t
 	assign.K = k
 	fmt.Println("[buildAndProveCount] Public assignment prepared")
-	//ht := Poseidon2MD_HT_BN254(T, int(assign.M))
-	//assign.HT = ht
-	// 4) 构造 full witness（同样传模数）
+
 	fmt.Println("[buildAndProveCount] Constructing full witness")
 	var w witness.Witness
 	w, err = frontend.NewWitness(&assign, bn254fr.Modulus())
@@ -126,13 +114,11 @@ func (n *Node) buildAndProveCount(
 	}
 	fmt.Println("[buildAndProveCount] Full witness constructed successfully")
 
-	// 4.1) 取公开部分：w.Public()（不是包级函数）
 	wPub, err := w.Public()
 	if err != nil {
 		return nil, nil, nil, fmt.Errorf("public(): %w", err)
 	}
 
-	// 4.2) 从公开 witness 里取底层向量，并断言为 bn254fr.Vector（Verify 需要）
 	vecAny := wPub.Vector()
 	var ok2 bool
 	pub, ok2 = vecAny.(bn254fr.Vector)
@@ -141,7 +127,6 @@ func (n *Node) buildAndProveCount(
 	}
 	fmt.Println("[buildAndProveCount] Public vector extracted successfully")
 
-	// 5) Setup：传 *SparseR1CS + bn254/kzg.SRS（值类型）
 	fmt.Println("[buildAndProveCount] Running setup with SparseR1CS and SRS")
 	pk, vk2, err := plonkbn254.Setup(spr, *srs, srsLag)
 	if err != nil {
@@ -149,7 +134,6 @@ func (n *Node) buildAndProveCount(
 	}
 	fmt.Println("[buildAndProveCount] Setup completed successfully")
 
-	// 6) Prove：同样传 *SparseR1CS + full witness
 	fmt.Println("[buildAndProveCount] Generating proof")
 	proof, err = plonkbn254.Prove(spr, pk, w)
 	if err != nil {
@@ -157,7 +141,6 @@ func (n *Node) buildAndProveCount(
 	}
 	fmt.Println("[buildAndProveCount] Proof generated successfully")
 
-	// 生成 Solidity 验证合约
 	fmt.Println("[ProveAndBroadcastCount] Exporting Solidity verifier contract...")
 	if err := exportVerifier(vk2, "Verifier.sol"); err != nil {
 		return nil, nil, nil, fmt.Errorf("export solidity verifier failed: %w", err)

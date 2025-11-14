@@ -7,11 +7,8 @@ import (
 	"math/big"
 )
 
-// 选一个大素数 q（演示用；生产请统一链上参数）
 var Q = big.NewInt(0).SetUint64(2305843009213693951) // 2^61-1
 
-// 将 bit 向量做 2-份加法分享：s1=r, s2=(bit - r) mod q
-// 返回 s1,s2（uint64表示，实际是 mod Q）
 func SplitBitsAdditive(bits []uint8) (s1 []uint64, s2 []uint64, err error) {
 	n := len(bits)
 	s1 = make([]uint64, n)

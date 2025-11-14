@@ -1,3 +1,0 @@
-remove txblock repeated check, for improve performance
-remove abundant output
-add assistant output

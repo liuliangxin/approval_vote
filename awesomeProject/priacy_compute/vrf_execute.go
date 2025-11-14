@@ -151,14 +151,12 @@ func (n *Node) RunRandomElectAndBroadcast() error {
 		fmt.Printf("Failed to trigger /vote/approve, status code: %d\n", resp.StatusCode)
 	}
 
-	// ✅ 额外输出：除了 t0 的全部阶段耗时
 	totalExceptVRF := d1 + d2 + d3
 	fmt.Printf("[timing] total(except evalVRFOnce)=%s\n", totalExceptVRF)
 
 	return nil
 }
 
-// 模拟批准投票名单（无放回不重复，最多 T 个）
 func randomApprovedIndices(M, T int) []uint64 {
 	if M <= 0 || T <= 0 {
 		return nil
@@ -175,41 +173,33 @@ func randomApprovedIndices(M, T int) []uint64 {
 	return out
 }
 
-// ======= 验证对端 vrf 并落地候选集 =======
-
 func (n *Node) VerifyAndSaveVRF(v *VRFResult) error {
-	// 1. 验证轮次和上下文一致性
+
 	if v.T != n.VRF_T || v.Context != n.VRF_Context {
 		return fmt.Errorf("round mismatch: expected (T=%d, context=%s), got (T=%d, context=%s)", n.VRF_T, n.VRF_Context, v.T, v.Context)
 	}
 
-	// 2. 验证公钥与 NodeID 一致性
-	expectedPK := hex.EncodeToString(n.SelfPK) // 将当前节点的公钥转换成字符串格式
+	expectedPK := hex.EncodeToString(n.SelfPK)
 	if !strings.EqualFold(expectedPK, v.PKHex) {
 		return fmt.Errorf("public key mismatch for NodeID %s: expected %s, got %s", v.NodeID, expectedPK, v.PKHex)
 	}
 
-	// 3. 防止重放：检查节点是否已提交过该 VRF 结果
 	key := SeenKey{Round: RoundKey{T: v.T, C: v.Context}, NodeID: v.NodeID}
 	if _, ok := seen[key]; ok {
 		return fmt.Errorf("duplicate VRF result received from node %s for round %d", v.NodeID, v.T)
 	}
 
-	// 4. 验证 VRF 证明
 	msg := makeMessage(v.T, []byte(v.Context))
 	ok, err := vrf_ed25519.ECVRF_verify(ed25519.PublicKey(v.PKHex), v.Proof, msg)
 	if err != nil || !ok {
 		return fmt.Errorf("VRF proof verification failed for node %s: %v", v.NodeID, err)
 	}
 
-	// 5. 从 proof 派生 vrf 输出（hash），并计算 value
 	out := vrf_ed25519.ECVRF_proof2hash(v.Proof)
 	value := bytesToUnitFloat(out)
 
-	// 6. 判断是否符合阈值 τ（即是否被选中）
 	chosen := value < n.Tau
 
-	// 7. 保存验证结果
 	rec := &VRFRecord{
 		NodeID:   v.NodeID,
 		PK:       ed25519.PublicKey(v.PKHex),
@@ -222,13 +212,10 @@ func (n *Node) VerifyAndSaveVRF(v *VRFResult) error {
 		RecvTime: time.Now(),
 	}
 
-	// 更新候选集
 	n.CandidateSet[v.NodeID] = rec
 
-	// 将此节点标记为已处理，防止重放
 	seen[key] = struct{}{}
 
-	// 如果选中了此节点，可以额外处理（如记录、通知等）
 	if chosen {
 		fmt.Printf("Node %s is chosen for the candidate set, value: %.8f\n", v.NodeID, value)
 	}
@@ -236,58 +223,27 @@ func (n *Node) VerifyAndSaveVRF(v *VRFResult) error {
 	return nil
 }
 
-// 小工具：本包内安全的 JSON 编码（避免循环引用）
 func jsonMarshal(v interface{}) ([]byte, error) {
 	type alias = interface{}
 	return json.Marshal(alias(v))
 }
 
-//	func (n *Node) RunAggVRFBroadcast(context string) error {
-//		// 本地对 context 做 vrf
-//		val, pi, hash, err := n.evalVRFOnce(n.VRF_T, []byte(context))
-//		if err != nil {
-//			return err
-//		}
-//		_ = val
-//
-//		// 取 hash 的最低字节作为“最低两位十六进制”
-//		var tail uint8
-//		if len(hash) > 0 {
-//			tail = hash[len(hash)-1]
-//		}
-//		_ = tail // 需要的话可缓存
-//
-//		msg := AggVRFMsg{
-//			NodeID:  n.NodeID,
-//			PKHex:   hex.EncodeToString(n.SelfPK),
-//			Proof:   pi,
-//			Context: context,
-//		}
-//
-//		body, _ := json.Marshal(msg)
-//		for _, url := range n.NodeTable {
-//			n.VoteSend_go <- SendMsg_go{url: url + "/vrf/agg_proposal", msg: body}
-//		}
-//		return nil
-//	}
 func (n *Node) RunAggVRFBroadcast(context string) error {
-	// 本地对 context 做 VRF
+
 	val, _, hash, err := n.evalVRFOnce(n.VRF_T, []byte(context))
 	if err != nil {
 		return err
 	}
 	_ = val
 
-	// 取 hash 的最低字节作为“最低两位十六进制”
 	var tail uint8
 	if len(hash) > 0 {
 		tail = hash[len(hash)-1]
 	}
-	_ = tail // 需要的话可缓存
+	_ = tail //
 
-	// 直接设置两个聚合节点的 NodeID
-	n.Aggregators[0] = "1" // 第一聚合节点
-	n.Aggregators[1] = "2" // 第二聚合节点
+	n.Aggregators[0] = "1" //
+	n.Aggregators[1] = "2" //
 
 	n.IsAggregator = false
 	n.AggregatorPart = 0
@@ -302,14 +258,14 @@ func (n *Node) RunAggVRFBroadcast(context string) error {
 		n.IsAggregator = false
 		n.AggregatorPart = 0
 	}
-	// 输出聚合节点信息
+
 	fmt.Printf("[AggSelect] self=%s IsAgg=%v part=%d A=%s B=%s\n",
 		n.NodeID, n.IsAggregator, n.AggregatorPart, n.Aggregators[0], n.Aggregators[1])
 	if n.IsAggregator {
 		if n.AggregatorPart == 1 {
-			n.PeerAggregator = n.Aggregators[1] // 我是 M_A，对端是 M_B
+			n.PeerAggregator = n.Aggregators[1] //
 		} else if n.AggregatorPart == 2 {
-			n.PeerAggregator = n.Aggregators[0] // 我是 M_B，对端是 M_A
+			n.PeerAggregator = n.Aggregators[0] //
 		}
 		fmt.Printf("[AggSelect] self=%s part=%d peer=%s\n", n.NodeID, n.AggregatorPart, n.PeerAggregator)
 	}
@@ -318,17 +274,15 @@ func (n *Node) RunAggVRFBroadcast(context string) error {
 }
 
 func (n *Node) handleAggVRFMsg(m *AggVRFMsg) error {
-	// ✅ 函数调用日志
+
 	fmt.Printf("[handleAggVRFMsg] called by node=%s (AggContext=%s, MsgContext=%s, VRF_T=%d)\n",
 		n.NodeID, n.AggContext, m.Context, n.VRF_T)
 
-	// 上下文/轮次过滤
 	if m.Context != n.AggContext {
 		fmt.Printf("[handleAggVRFMsg] skip: context mismatch (got=%s, expect=%s)\n", m.Context, n.AggContext)
 		return fmt.Errorf("agg vrf ctx mismatch")
 	}
 
-	// 验证 VRF 证明
 	pk, _ := hex.DecodeString(m.PKHex)
 	ok, err := vrf_ed25519.ECVRF_verify(ed25519.PublicKey(pk), m.Proof, makeMessage(n.VRF_T, []byte(m.Context)))
 	if err != nil {
@@ -340,10 +294,8 @@ func (n *Node) handleAggVRFMsg(m *AggVRFMsg) error {
 		return fmt.Errorf("agg vrf verify fail from %s", m.NodeID)
 	}
 
-	// ✅ 验证成功日志
 	fmt.Printf("[handleAggVRFMsg] VRF proof verified successfully from node=%s\n", m.NodeID)
 
-	// 由 proof -> hash，取尾字节
 	out := vrf_ed25519.ECVRF_proof2hash(m.Proof)
 	var tail uint8
 	if len(out) > 0 {
@@ -351,7 +303,6 @@ func (n *Node) handleAggVRFMsg(m *AggVRFMsg) error {
 	}
 	fmt.Printf("[handleAggVRFMsg] proof2hash tail byte=%d (0x%x)\n", tail, tail)
 
-	// 幂等：只收第一条
 	if _, exists := n.aggBox[m.NodeID]; exists {
 		fmt.Printf("[handleAggVRFMsg] duplicate msg from node=%s, ignore.\n", m.NodeID)
 		return nil
@@ -360,7 +311,6 @@ func (n *Node) handleAggVRFMsg(m *AggVRFMsg) error {
 	n.aggBox[m.NodeID] = tail
 	fmt.Printf("[handleAggVRFMsg] stored tail for node=%s (currentBoxSize=%d)\n", m.NodeID, len(n.aggBox))
 
-	// ✅ 收敛条件检测日志
 	threshold := int(float64(len(n.CandidateSet)) * 2.0 / 3.0)
 	if len(n.aggBox) >= threshold {
 		fmt.Printf("[handleAggVRFMsg] threshold reached (%d/%d), triggering finalization.\n",
@@ -375,21 +325,21 @@ func (n *Node) handleAggVRFMsg(m *AggVRFMsg) error {
 }
 
 func (n *Node) tryFinalizeAggregators() {
-	// 只收敛一次
+
 	if n.Aggregators[0] != "" && n.Aggregators[1] != "" {
 		return
 	}
 	if time.Now().Before(n.aggDeadline) && len(n.aggBox) < 2 {
-		return // 保底：至少收够两个或到时
+		return //
 	}
 	n.finalizeAggregators()
 
-	// 可选：对外广播赢家（便于全网一致）
+	//
 	winners := struct {
 		Epoch, Round uint64
 		Context      string
 		MA, MB       string
-		// list 可带上 (node, tail) 做可验证复算
+		//
 	}{n.AggEpoch, n.AggRound, n.AggContext, n.Aggregators[0], n.Aggregators[1]}
 	body, _ := json.Marshal(winners)
 	for _, url := range n.NodeTable {
@@ -397,7 +347,6 @@ func (n *Node) tryFinalizeAggregators() {
 	}
 }
 
-// 选择聚合者（按 tail 升序取前2）
 func (n *Node) finalizeAggregators() {
 	items := make([]aggY, 0, len(n.aggBox))
 	for id, t := range n.aggBox {

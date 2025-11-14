@@ -1,32 +1,31 @@
+Certainly! Here's the complete English version of your README with the continuation of the instructions:
+
+---
+
 # README
 
-## 1. 环境准备
+## 1. Environment Setup
 
-* **Go 1.24.1**（必须）
+* **Go 1.24.1** (required)
 
+## 2. Get the Code
 
-
-## 2. 获取代码
-
-
-> 若在国内网络，建议设置 Go 代理（可选）：
+> If you are in mainland China, it’s recommended (optional) to set a Go proxy:
 
 ```bash
 go env -w GOPROXY=https://goproxy.cn,direct
 ```
 
-## 3. 拉取依赖
+## 3. Fetch Dependencies
 
-在项目根目录（含 `go.mod` 的目录）执行：
-
-cd awesomeProject            # 进入含有 go.mod 的根目录
-go mod tidy   
+In the project root directory (the directory that contains `go.mod`), run:
 
 ```bash
+cd awesomeProject            # enter the root directory that contains go.mod
 go mod tidy
 ```
 
-如果需要同时构建/运行 `DKG/` 子模块（其下也有独立 `go.mod`）：
+If you also need to build/run the `DKG/` submodule (which has its own `go.mod`):
 
 ```bash
 cd DKG
@@ -34,25 +33,40 @@ go mod tidy
 cd ..
 ```
 
-## 4. 启动节点（Windows）
+## 4. Start the Node (Windows)
 
-在项目根目录（含有 `a.bat` 的目录）执行：
+In the project root directory (the one that contains `a.bat`), run:
 
 ```bat
 a.bat
 ```
 
-或在文件管理器中**双击** `a.bat`。
+Or **double-click** `a.bat` in File Explorer.
 
-> `a.bat` 会按脚本逻辑启动节点；日志通常在 `logs/` 目录下
+> `a.bat` will start the node according to the script logic; logs are usually in the `logs/` directory.
 
-`DKG/` 子模块（如需）：
+For the `DKG/` submodule (if needed):
 
 ```bash
 cd DKG
 go run .
-# 或
-go build -o ../bin/dkg .
+# or
+go build -o ../bin/dkg . 
 ../bin/dkg   # Windows: ..\bin\dkg.exe
 ```
 
+---
+
+## 5. Start the Node (Linux/Mac)
+
+In the project directory `approve_vote/awesomeProject/`, run the following command to open the port and start the node:
+
+```bash
+bash a.sh
+```
+
+This will start the node and open the required ports for the application to run. Make sure to check the logs to verify that everything is running correctly.
+
+---
+
+This completes the README with all necessary instructions for setting up the environment, fetching dependencies, starting the node on different systems, and troubleshooting the logs.
