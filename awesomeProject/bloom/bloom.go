@@ -6,28 +6,28 @@ import (
 	"math"
 )
 
-// Bloom 参数：l 位长，d 哈希个数
+
 type Bloom struct {
-	L    int     // 位长
-	D    int     // 哈希函数个数
-	Bits []uint8 // 0/1 向量（长度 L）
-	N    int     // 已插入元素数（用于计算 FPR）
+	L    int     // 
+	D    int     // 
+	Bits []uint8 // 
+	N    int     // 
 }
 
-// 由系统参数 (m, t, epsBF) 计算 l, d
+
 // l = - t ln eps / (ln 2)^2, d = (l/t) ln 2
 func CalcBloomParams(m, t int, epsBF float64) (l int, d int) {
-	// ==== 输入校验====
-	if m <= 0 { // 总人数至少为 1
+
+	if m <= 0 { // 
 		m = 1
 	}
 	if t < 0 {
 		t = 0
 	}
-	if t > m { // 约束：t ≤ m
+	if t > m {
 		t = m
 	}
-	// eps 约束到 (0,1)
+
 	const epsMin = 1e-12
 	const epsMax = 1 - 1e-12
 	if epsBF <= 0 {
@@ -36,15 +36,15 @@ func CalcBloomParams(m, t int, epsBF float64) (l int, d int) {
 		epsBF = epsMax
 	}
 
-	// ==== 计算 ====
-	if t == 0 { // 没有要存的元素，退化情形
+
+	if t == 0 { // 
 		return 0, 1
 	}
 
 	ln2 := math.Ln2
 	lFloat := -float64(t) * math.Log(epsBF) / (ln2 * ln2)
 	l = int(math.Ceil(lFloat))
-	if l < t { // 至少能放下 t 个独立位
+	if l < t { // 
 		l = t
 	}
 
@@ -65,7 +65,7 @@ func NewBloom(l, d int) *Bloom {
 	}
 }
 
-// 计算两个基础哈希 h1, h2
+
 func (b *Bloom) getH1H2(x uint64) (uint64, uint64) {
 	h := fnv.New64a()
 	var buf [8]byte
@@ -73,15 +73,14 @@ func (b *Bloom) getH1H2(x uint64) (uint64, uint64) {
 	_, _ = h.Write(buf[:])
 	h1 := h.Sum64()
 
-	// 简单扰动得到 h2，可以换成另一种 hash 函数
+
 	h2 := (h1 >> 33) ^ (h1 << 13)
 	if h2 == 0 {
-		h2 = 0x9e3779b97f4a7c15 // 避免退化为 0
+		h2 = 0x9e3779b97f4a7c15 // 
 	}
 	return h1, h2
 }
 
-// AddIndex 将索引加入 Bloom
 func (b *Bloom) AddIndex(idx uint64) {
 	if b.L == 0 || b.D == 0 {
 		return
@@ -95,7 +94,7 @@ func (b *Bloom) AddIndex(idx uint64) {
 	b.N++
 }
 
-// CheckIndex 检查是否可能存在
+
 func (b *Bloom) CheckIndex(idx uint64) bool {
 	if b.L == 0 || b.D == 0 {
 		return false
@@ -111,7 +110,7 @@ func (b *Bloom) CheckIndex(idx uint64) bool {
 	return true
 }
 
-// FalsePositiveRate 当前假阳性率 FPR = (1 - e^(-d*n/l))^d
+
 func (b *Bloom) FalsePositiveRate() float64 {
 	if b.L == 0 || b.D == 0 || b.N == 0 {
 		return 0
@@ -129,7 +128,7 @@ func (b *Bloom) OnesCount() int {
 	return cnt
 }
 
-// 导出/导入
+
 func (b *Bloom) ExportBits() []uint8 {
 	out := make([]uint8, len(b.Bits))
 	copy(out, b.Bits)
